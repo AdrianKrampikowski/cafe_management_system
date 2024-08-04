@@ -1,8 +1,5 @@
 const User = require("./model");
 
-// Sign up the User
-// 
-
 const signUp = async (req, resp) => {
     try {
         const user = await User.where("email").equals(req.body.email).exec();
@@ -18,4 +15,15 @@ const signUp = async (req, resp) => {
     }
 }
 
-module.exports = { signUp }
+const login = async (req, resp) => {
+    try {
+        const user = await User.where("email").equals(req.body.email).exec();
+        const password = await User.where("password").equals(req.body.password).exec();
+        resp.status(200).json(password);
+
+    } catch (error) {
+        resp.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { signUp, login }
