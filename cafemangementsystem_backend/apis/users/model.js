@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema([{
         required: [true, "email is required"]
     },
     contactNumber: {
-        type: Number,
+        type: String,
         required: [true, "contactNumber is required"]
     },
     password: {
@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema([{
         required: [true, "password is required"]
     },
     status: {
-        type: String,
+        type: Boolean,
         required: [true, "status is required"]
     },
     role: {
