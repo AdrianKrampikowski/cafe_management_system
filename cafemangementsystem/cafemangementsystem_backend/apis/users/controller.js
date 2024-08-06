@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const nodemailer = require("nodemailer")
 
+
 const signUp = async (req, resp) => {
     try {
         const user = await User.where("email").equals(req.body.email).exec();
@@ -40,6 +41,43 @@ const login = async (req, resp) => {
     }
 }
 
+const getAllUsers = async (req, resp) => {
+    try {
+        const users = await User.where("role").equals("user").exec();
+        if (users.length == 0) {
+            resp.status(400).json({ message: "no user exist" })
+        } else {
+            resp.status(200).json(users)
+        }
+    } catch (error) {
+        resp.status(404).json({ message: error.message })
+    }
+}
+
+const updateUser = async (req, resp) => {
+    const { _id, age, email, contactNumber, password, status, role } = req.body
+    try {
+        let user = await User.findById(_id)
+        if (user) {
+            user.age = age;
+            user.email = email;
+            user.contactNumber = contactNumber;
+            user.password = password;
+            user.status = status;
+            user.role = role;
+            await user.save()
+            resp.status(200).json({ message: "user has been updated" })
+        } else {
+            resp.status(404).json({ message: "User with this ID doesnt exist" })
+        }
+    } catch (error) {
+        resp.status(404).json({ message: error.message })
+    }
+}
+
+const checkToken = (req, resp) => {
+    resp.status(200).json({ message: "true" })
+}
 
 
-module.exports = { signUp, login }
+module.exports = { signUp, login, getAllUsers, updateUser }
