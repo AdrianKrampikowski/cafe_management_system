@@ -1,0 +1,10 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" opened>
+        <mat-nav-list>
+            <mat-list-item *ngFor="let item of navItems">
+                <mat-icon>{{ item.icon }}</mat-icon>
+                {{ item.name }}
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-sidenav>
+</mat-sidenav-container>
