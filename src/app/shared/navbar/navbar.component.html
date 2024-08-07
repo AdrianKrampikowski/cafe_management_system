@@ -19,9 +19,26 @@
     </button>
     <span>Cafe Management System</span>
     <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with profile icon"
-        (click)="openDialog()">
-        <mat-icon>account_circle</mat-icon>
-    </button>
+
+
+    <ng-container *ngIf="userLogined == false">
+        <button mat-button (click)="login()">
+            Login
+        </button>
+        <button mat-button (click)="signup()">
+            Signup
+        </button>
+        <button mat-button (click)="forgotPassword()">
+            Forgot Password?
+        </button>
+    </ng-container>
+
+    <ng-container *ngIf="userLogined == true">
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with profile icon"
+            (click)="openDialog()">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+    </ng-container>
+
 
 </mat-toolbar>

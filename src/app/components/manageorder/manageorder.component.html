@@ -7,4 +7,62 @@
             </mat-card>
         </mat-card-content>
     </mat-card>
+
+    <mat-card class="customer-details-container">
+        <mat-card-content class="customer-details-top">
+            <mat-card-title>Customer-Details</mat-card-title>
+            <form class="example-form" [formGroup]="customerForm">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Name</mat-label>
+                    <input type="text" matInput formControlName="name" placeholder="Name">
+                    @if (customerForm.get('name')?.hasError('name') && !customerForm.get('name')?.hasError('required'))
+                    {
+                    <mat-error>Please enter your Name</mat-error>
+                    }
+                    @if (customerForm.get('name')?.hasError('required')) {
+                    <mat-error>Name is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+                    @if (customerForm.get('email')?.hasError('email') &&
+                    !customerForm.get('email')?.hasError('required')) {
+                    <mat-error>Please enter a valid email address</mat-error>
+                    }
+                    @if (customerForm.get('email')?.hasError('required')) {
+                    <mat-error>Email is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>contactNumer</mat-label>
+                    <input type="text" matInput formControlName="contactNumber" placeholder="Contact Number">
+                    @if (customerForm.get('contactNumber')?.hasError('contactNumber') &&
+                    !customerForm.get('contactNumber')?.hasError('required')) {
+                    <mat-error>Please enter a valid Contact Numer</mat-error>
+                    }
+                    @if (customerForm.get('contactNumber')?.hasError('required')) {
+                    <mat-error>Contact Number is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Payment Method</mat-label>
+                    <mat-select formControlName="paymentMethod">
+                        <mat-option value="one">Crypto</mat-option>
+                        <mat-option value="two">Visa</mat-option>
+                    </mat-select>
+                    @if (customerForm.get('paymentMethod')?.hasError('required')){
+                    <mat-error>Please select a PaymentMethod</mat-error>
+                    }
+                </mat-form-field>
+            </form>
+            <mat-card>
+                <button mat-flat-button color="warn">Submit & Get Bill</button>
+            </mat-card>
+        </mat-card-content>
+    </mat-card>
+
 </div>

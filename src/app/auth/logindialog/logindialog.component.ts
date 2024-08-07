@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -13,9 +13,10 @@ import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-signup',
+  selector: 'app-logindialog',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -32,30 +33,26 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     ReactiveFormsModule,
   ],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss',
+  templateUrl: './logindialog.component.html',
+  styleUrl: './logindialog.component.scss',
 })
-export class SignupComponent {
+export class LogindialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<SignupComponent>,
-    public fb: FormBuilder
+    public dialogRef: MatDialogRef<LogindialogComponent>,
+    public fb: FormBuilder,
+    private router: Router
   ) {}
 
-  userForm = this.fb.group({
-    name: [``, Validators.required],
-    age: [null, [Validators.required, Validators.min(18)]],
-    email: [``, [Validators.required, Validators.email]],
-    contactNumber: [``, Validators.required],
-    password: [``, Validators.required],
-    // status: [false, Validators.required],
-    // role: [``, Validators.required],
+  loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
   });
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  signUp() {
-    console.log('userForm', this.userForm.value);
+  login() {
+    this.router.navigate(['/dashboard']);
   }
 }

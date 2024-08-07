@@ -15,7 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-signup',
+  selector: 'app-forgotpassword',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -32,30 +32,24 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     ReactiveFormsModule,
   ],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss',
+  templateUrl: './forgotpassword.component.html',
+  styleUrl: './forgotpassword.component.scss',
 })
-export class SignupComponent {
+export class ForgotpasswordComponent {
   constructor(
-    public dialogRef: MatDialogRef<SignupComponent>,
+    public dialogRef: MatDialogRef<ForgotpasswordComponent>,
     public fb: FormBuilder
   ) {}
 
-  userForm = this.fb.group({
-    name: [``, Validators.required],
-    age: [null, [Validators.required, Validators.min(18)]],
-    email: [``, [Validators.required, Validators.email]],
-    contactNumber: [``, Validators.required],
-    password: [``, Validators.required],
-    // status: [false, Validators.required],
-    // role: [``, Validators.required],
+  emailForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
   });
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  signUp() {
-    console.log('userForm', this.userForm.value);
+  sendEmail() {
+    console.log('emailForm', this.emailForm.value);
   }
 }
