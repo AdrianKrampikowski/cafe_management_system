@@ -59,10 +59,114 @@
                     }
                 </mat-form-field>
             </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="select-products-container">
+        <mat-card-content class="select-products-top">
+            <mat-card-title>Select Product</mat-card-title>
+            <form class="example-form" [formGroup]="customerForm">
+                <mat-form-field>
+                    <mat-label>Category</mat-label>
+                    <mat-select formControlName="paymentMethod">
+                        <mat-option value="one">???</mat-option>
+                        <mat-option value="two">???</mat-option>
+                    </mat-select>
+                    @if (customerForm.get('paymentMethod')?.hasError('required')){
+                    <mat-error>Please select a Category</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Product</mat-label>
+                    <mat-select formControlName="paymentMethod">
+                        <mat-option value="one">???</mat-option>
+                        <mat-option value="two">???</mat-option>
+                    </mat-select>
+                    @if (customerForm.get('paymentMethod')?.hasError('required')){
+                    <mat-error>Please select a Product</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Price</mat-label>
+                    <input type="number" matInput formControlName="price" placeholder="Price">
+                    @if (customerForm.get('price')?.hasError('required')) {
+                    <mat-error>Price is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Quantity</mat-label>
+                    <input type="number" matInput formControlName="quantity" placeholder="Quantity">
+                    @if (customerForm.get('quantity')?.hasError('quantity') &&
+                    !customerForm.get('quantity')?.hasError('required')) {
+                    <mat-error>Please enter a valid Quantity</mat-error>
+                    }
+                    @if (customerForm.get('quantity')?.hasError('required')) {
+                    <mat-error>Quantity is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Total</mat-label>
+                    <input type="number" matInput formControlName="total" placeholder="0">
+                    @if (customerForm.get('total')?.hasError('total') &&
+                    !customerForm.get('total')?.hasError('required')) {
+                    <mat-error>Please enter a valid Total</mat-error>
+                    }
+                    @if (customerForm.get('total')?.hasError('required')) {
+                    <mat-error>Total is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+
+            </form>
+            <button mat-flat-button color="warn">add</button>
             <mat-card>
-                <button mat-flat-button color="warn">Submit & Get Bill</button>
+                <button mat-flat-button color="warn">Total Amount</button>
             </mat-card>
         </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+        <table mat-table  class="mat-elevation-z8">
+
+            <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="Name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="Category">
+                <th mat-header-cell *matHeaderCellDef> Category </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="Price">
+                <th mat-header-cell *matHeaderCellDef> Price </th>
+                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="Quantity">
+                <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Total">
+                <th mat-header-cell *matHeaderCellDef> Total </th>
+                <!-- <td mat-cell *matCellDef="let element"> {{element.symbol}} </td> -->
+            </ng-container>
+
+            <ng-container matColumnDef="Delete">
+                <th mat-header-cell *matHeaderCellDef> Delete </th>
+                <!-- <td mat-cell *matCellDef="let element"> {{element.symbol}} </td> -->
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
     </mat-card>
 
 </div>

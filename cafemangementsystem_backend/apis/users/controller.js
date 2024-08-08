@@ -79,5 +79,42 @@ const checkToken = (req, resp) => {
     resp.status(200).json({ message: "true" })
 }
 
+const changePassword = async (req, resp) => {
+    const { email, password } = req.body
+    try {
+        let user = await User.where("email").equals(email).exec();
+        user = user[0]
+        if (user) {
+            user.password = password;
+            console.log(user);
+            await user.save();
+            resp.status(200).json({ message: "password Updated" })
+        } else {
+            resp.status(404).json({ message: "user not found" })
+        }
+    } catch (error) {
+        resp.status(400).json({ message: error.message })
+    }
+}
 
-module.exports = { signUp, login, getAllUsers, updateUser }
+const changeOwnPassword = async (req, resp) => {
+    const { email, oldpassword, newpassword } = req.body;
+    try {
+        let user = await User.where("email").equals(email).exec();
+        user = user[0];
+        if (user.password == oldpassword) {
+            user.password = newpassword;
+            await user.save();
+            resp.status(200).json({ message: "Password changed" })
+        } else if (user.password != oldpassword) {
+            resp.status(400).json({ message: "incorrect Password" })
+        } else {
+            resp.status(404).json({ message: "incorrect Email" })
+        }
+    } catch (error) {
+        resp.status(400).json({ message: error.message })
+    }
+}
+
+
+module.exports = { signUp, login, getAllUsers, updateUser, changePassword, changeOwnPassword }

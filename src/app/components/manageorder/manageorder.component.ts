@@ -13,6 +13,7 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-manageorder',
@@ -29,6 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatTableModule,
   ],
   templateUrl: './manageorder.component.html',
   styleUrl: './manageorder.component.scss',
@@ -41,7 +43,19 @@ export class ManageorderComponent {
     email: ['', [Validators.required, Validators.email]],
     contactNumber: ['', Validators.required],
     paymentMethod: ['', Validators.required],
+    price: ['', Validators.required],
+    quantity: ['', Validators.required],
+    total: ['', Validators.required],
   });
+
+  displayedColumns: string[] = [
+    'Name',
+    'Category',
+    'Price',
+    'Quantity',
+    'Total',
+    'Delete',
+  ];
 
   // emailFormControl = new FormControl('', [
   //   Validators.required,

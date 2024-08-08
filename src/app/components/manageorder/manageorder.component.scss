@@ -1,6 +1,9 @@
 .container {
   height: calc(100vh - 150px);
   width: calc(100vw - 300px);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
 .dashboard-container {
@@ -9,7 +12,11 @@
 }
 
 .manageorder {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+table {
+  width: 100%;
 }

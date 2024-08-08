@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema([{
         required: [true, "password is required"]
     },
     status: {
-        type: Boolean,
+        type: String,
         required: [true, "status is required"]
     },
     role: {
