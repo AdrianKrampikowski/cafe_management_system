@@ -6,6 +6,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { Router } from '@angular/router';
 // import { AppComponent } from './app.component';
 // import { SidenavComponent } from './sidenav/sidenav.component';
 
@@ -23,12 +24,16 @@ import { MatListModule } from '@angular/material/list';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
-  constructor() {}
+  constructor(public router: Router) {}
   navItems = [
-    { name: 'Dashboard', icon: 'dashboard' },
-    { name: 'Manage Products', icon: 'inventory' },
-    { name: 'Manage Order', icon: 'receipt' },
-    { name: 'View Bill', icon: 'visibility' },
-    { name: 'Manage Users', icon: 'group' },
+    { name: 'Dashboard', icon: 'dashboard', url: '/dashboard' },
+    { name: 'Manage Products', icon: 'inventory', url: '/addproduct' },
+    { name: 'Manage Order', icon: 'receipt', url: '/manageorder' },
+    { name: 'View Bill', icon: 'visibility', url: '/' },
+    { name: 'Manage Users', icon: 'group', url: '/' },
   ];
+
+  changePage(url: string) {
+    this.router.navigate([`/${url}`]);
+  }
 }

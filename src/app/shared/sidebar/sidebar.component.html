@@ -2,7 +2,7 @@
     <mat-sidenav #sidenav mode="side" opened>
         <mat-nav-list>
             <mat-list-item *ngFor="let item of navItems">
-                <mat-icon>{{ item.icon }}</mat-icon>
+                <mat-icon (click)="changePage(item.url)">{{ item.icon }}</mat-icon>
                 {{ item.name }}
             </mat-list-item>
         </mat-nav-list>
