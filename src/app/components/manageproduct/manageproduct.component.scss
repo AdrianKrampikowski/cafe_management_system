@@ -1,0 +1,17 @@
+.manage-product-top-container,
+.manage-product-middle-container {
+  width: calc(100vw - 300px);
+}
+
+.manage-product-top-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+:host ::ng-deep mat-form-field {
+  width: 100%;
+}
+
+table {
+    width: 100%;
+  }

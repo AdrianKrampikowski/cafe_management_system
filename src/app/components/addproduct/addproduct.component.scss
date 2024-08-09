@@ -1,0 +1,30 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+:host ::ng-deep mat-card-title {
+  color: white;
+  background-color: darkorange;
+  text-align: center;
+}
+
+:host ::ng-deep mat-form-field {
+  width: 100%;
+}
+
+.price-category-container {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.buttons-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}

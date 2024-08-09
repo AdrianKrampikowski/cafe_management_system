@@ -1,1 +1,51 @@
-<p>addproduct works!</p>
+<mat-card>
+    <mat-card-title>
+        Add Product
+    </mat-card-title>
+    <form [formGroup]="addProductForm" class="form-container">
+        <mat-card-content>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input type="name" matInput formControlName="name">
+                @if (addProductForm.hasError('required')) {
+                <mat-error>Name is <strong>required</strong></mat-error>
+                }
+            </mat-form-field>
+
+            <div class="price-category-container">
+                <mat-form-field>
+                    <mat-label>Price</mat-label>
+                    <input type="price" matInput formControlName="price">
+                    @if (addProductForm.hasError('price') && !addProductForm.hasError('required')) {
+                    <mat-error>Price databank Error</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Category</mat-label>
+                    <mat-select formControlName="category" multiple>
+
+                        @for (category of categoryList; track category) {
+                        <mat-option [value]="category">{{category}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <mat-form-field>
+                <mat-label>Description</mat-label>
+                <input type="description" matInput formControlName="description" placeholder="Description">
+                @if (addProductForm.hasError('description') && !addProductForm.hasError('required')) {
+                <mat-error>Please enter a valid description address</mat-error>
+                }
+                @if (addProductForm.hasError('required')) {
+                <mat-error>Description is <strong>required</strong></mat-error>
+                }
+            </mat-form-field>
+
+            <div class="buttons-container">
+                <button mat-flat-button disabled>Add</button>
+                <button mat-flat-button color="warn">Close</button>
+            </div>
+        </mat-card-content>
+    </form>
+</mat-card>
