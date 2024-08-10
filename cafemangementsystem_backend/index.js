@@ -1,6 +1,7 @@
 const express = require("express")
 const connectionDB = require("./dbConnection/db")
 const userRoutes = require("./apis/users/index")
+const categoryRoutes = require("./apis/categorys/index")
 const cors = require("cors")
 require("dotenv").config()
 const mongodburl = process.env.mongodburl
@@ -20,6 +21,7 @@ app.use(express.json())
 
 
 app.use("/api/user", userRoutes)
+app.use("/api/category", categoryRoutes)
 
 
 const start = async () => {

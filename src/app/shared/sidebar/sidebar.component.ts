@@ -27,7 +27,7 @@ export class SidebarComponent {
   constructor(public router: Router) {}
   navItems = [
     { name: 'Dashboard', icon: 'dashboard', url: '/dashboard' },
-    { name: 'Manage Category', icon: 'category', url: '/' },
+    { name: 'Manage Category', icon: 'category', url: '/managecategory' },
     { name: 'Manage Products', icon: 'inventory', url: '/manageproduct' },
     { name: 'Manage Order', icon: 'receipt', url: '/manageorder' },
     { name: 'View Bill', icon: 'visibility', url: '/' },
