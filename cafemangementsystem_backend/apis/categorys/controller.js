@@ -40,7 +40,7 @@ const updateCategory = async (req, resp) => {
     try {
         const category = await Category.findById(_id);
         console.log(category);
-        
+
         if (category) {
             category.name = name;
             await category.save();
@@ -53,7 +53,19 @@ const updateCategory = async (req, resp) => {
     }
 }
 
-// Add delete
+const deleteCategory = async (req, resp) => {
+    const { _id } = req.body;
+    try {
+        const category = await Category.findByIdAndDelete(_id);
+        if (category) {
+            resp.status(200).json({ message: "Category deleted" });
+        } else {
+            resp.status(404).json({ message: "Category not found" });
+        }
+    } catch (error) {
+        resp.status(400).json({ message: error.message });
+    }
+}
 // add necessary Error handlin into getCategory()
 
-module.exports = { createCategory, getCategory, updateCategory }
+module.exports = { createCategory, getCategory, updateCategory, deleteCategory }
