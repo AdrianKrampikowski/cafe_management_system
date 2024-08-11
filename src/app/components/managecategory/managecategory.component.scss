@@ -1,3 +1,6 @@
+:host ::ng-deep mat-card-content {
+  width: calc(100vw - 300px);
+}
 
 .headline {
   width: 100%;
@@ -6,6 +9,6 @@
   align-items: center;
 }
 
-.input-field{
-    width: 100%;
+.input-field {
+  width: 100%;
 }

@@ -1,5 +1,9 @@
-.manage-product-top-container,
-.manage-product-middle-container {
+// .manage-product-top-container,
+// .manage-product-middle-container {
+//   width: calc(100vw - 300px);
+// }
+
+:host ::ng-deep mat-card {
   width: calc(100vw - 300px);
 }
 
@@ -13,5 +17,10 @@
 }
 
 table {
-    width: 100%;
-  }
+  width: 100%;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+}
