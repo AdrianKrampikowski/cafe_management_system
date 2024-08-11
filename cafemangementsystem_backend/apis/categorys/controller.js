@@ -35,10 +35,25 @@ const getCategory = async (req, resp) => {
     }
 }
 
+const updateCategory = async (req, resp) => {
+    const { _id, name } = req.body;
+    try {
+        const category = await Category.findById(_id);
+        console.log(category);
+        
+        if (category) {
+            category.name = name;
+            await category.save();
+            resp.status(200).json({ message: "Category updated" });
+        } else {
+            resp.status(400).json({ message: "Id or Category doesnt exist" })
+        }
+    } catch (error) {
+        resp.status(400).json({ message: error.message })
+    }
+}
 
-
-// add Update
 // Add delete
 // add necessary Error handlin into getCategory()
 
-module.exports = { createCategory, getCategory }
+module.exports = { createCategory, getCategory, updateCategory }
