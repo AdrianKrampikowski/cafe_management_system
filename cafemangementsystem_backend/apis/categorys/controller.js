@@ -20,8 +20,15 @@ const createCategory = async (req, resp) => {
 }
 
 const getCategory = async (req, resp) => {
+    const { select } = req.query;
+    let queryObject = req.query;
+    if (select) {
+        let changeSelect = select.replaceAll(",", " ");
+        select = changeSelect;
+        delete queryObject.select;
+    }
     try {
-        const category = await Category.find({});
+        const category = await Category.find(queryObject).select(select);
         resp.status(200).json(category)
     } catch (error) {
         resp.status(400).json({ message: error.message })
@@ -29,7 +36,7 @@ const getCategory = async (req, resp) => {
 }
 
 
-// sort the getCategory by Name
+
 // add Update
 // Add delete
 // add necessary Error handlin into getCategory()
