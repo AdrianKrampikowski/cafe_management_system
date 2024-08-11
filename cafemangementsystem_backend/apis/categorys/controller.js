@@ -28,6 +28,7 @@ const getCategory = async (req, resp) => {
     }
 }
 
+
 // sort the getCategory by Name
 // add Update
 // Add delete
