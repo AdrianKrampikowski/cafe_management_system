@@ -1,11 +1,12 @@
-const express = require("express")
-const connectionDB = require("./dbConnection/db")
-const userRoutes = require("./apis/users/index")
-const categoryRoutes = require("./apis/categorys/index")
-const cors = require("cors")
-require("dotenv").config()
-const mongodburl = process.env.mongodburl
-const portNumber = 8000
+const express = require("express");
+const connectionDB = require("./dbConnection/db");
+const userRoutes = require("./apis/users/index");
+const categoryRoutes = require("./apis/categorys/index");
+const productRoutes = require("./apis/product/index");
+const cors = require("cors");
+require("dotenv").config();
+const mongodburl = process.env.mongodburl;
+const portNumber = 8000;
 // const corsOptions = {
 //   origin: 'http://example.com', // specify allowed origin
 //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -13,15 +14,16 @@ const portNumber = 8000
 //   optionsSuccessStatus: 204,
 //};
 
-const app = express()
+const app = express();
 
-app.use(cors())
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+app.use(cors());
+app.use(express.urlencoded({ extended: true })),
+    app.use(express.json());
 
 
-app.use("/api/user", userRoutes)
-app.use("/api/category", categoryRoutes)
+app.use("/api/user", userRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/product", productRoutes);
 
 
 const start = async () => {
