@@ -66,6 +66,5 @@ const deleteCategory = async (req, resp) => {
         resp.status(400).json({ message: error.message });
     }
 }
-// add necessary Error handlin into getCategory()
 
 module.exports = { createCategory, getCategory, updateCategory, deleteCategory }
