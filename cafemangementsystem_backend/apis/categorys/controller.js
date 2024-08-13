@@ -70,8 +70,4 @@ const deleteCategory = async (req, resp) => {
     }
 }
 
-// delete a category -> Delete all Products
-// soft delete
-// hard delefet
-
 module.exports = { createCategory, getCategory, updateCategory, deleteCategory }

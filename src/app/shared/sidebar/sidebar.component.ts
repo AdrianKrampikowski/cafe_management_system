@@ -30,8 +30,8 @@ export class SidebarComponent {
     { name: 'Manage Category', icon: 'category', url: '/managecategory' },
     { name: 'Manage Products', icon: 'inventory', url: '/manageproduct' },
     { name: 'Manage Order', icon: 'receipt', url: '/manageorder' },
-    { name: 'View Bill', icon: 'visibility', url: '/' },
-    { name: 'Manage Users', icon: 'group', url: '/' },
+    { name: 'View Bill', icon: 'visibility', url: '/viewbill' },
+    { name: 'Manage Users', icon: 'group', url: '/manageuser' },
   ];
 
   changePage(url: string) {

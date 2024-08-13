@@ -1,0 +1,20 @@
+:host ::ng-deep mat-card {
+  width: calc(100vw - 250px);
+}
+
+.input-field {
+  width: 100%;
+}
+
+th,
+td {
+  text-align: center;
+}
+
+.buttons {
+  button {
+    color: darkorange;
+  }
+}
+
+

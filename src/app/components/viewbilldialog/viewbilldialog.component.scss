@@ -1,0 +1,30 @@
+:host ::ng-deep mat-card-header {
+  background-color: darkorange;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+td,
+th {
+  text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 10px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  font-size: 20px;
+  text-align: start;
+}
+
+.grid-background {
+  background-color: lightgrey;
+}

@@ -4,6 +4,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ManageorderComponent } from './components/manageorder/manageorder.component';
 import { ManageproductComponent } from './components/manageproduct/manageproduct.component';
 import { ManagecategoryComponent } from './components/managecategory/managecategory.component';
+import { ViewbillComponent } from './components/viewbill/viewbill.component';
+import { ManageuserComponent } from './components/manageuser/manageuser.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -11,4 +13,6 @@ export const routes: Routes = [
   { path: 'managecategory', component: ManagecategoryComponent },
   { path: 'manageorder', component: ManageorderComponent },
   { path: 'manageproduct', component: ManageproductComponent },
+  { path: 'viewbill', component: ViewbillComponent },
+  { path: 'manageuser', component: ManageuserComponent },
 ];
