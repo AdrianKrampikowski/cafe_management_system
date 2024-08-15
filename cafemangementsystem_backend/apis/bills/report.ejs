@@ -1,0 +1,115 @@
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .receipt-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .customer-info {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .customer-info td {
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        .customer-info .label {
+            font-weight: bold;
+        }
+
+        .product-details {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .product-details th,
+        .product-details td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .total {
+            text-align: right;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .footer-message {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="receipt-container">
+        <h2>Cafe Management System</h2>
+
+        <table class="customer-info">
+            <tr>
+                <td class="label">Name:</td>
+                <td><%= name %></td>
+                <td class="label">Email:</td>
+                <td><%= email %></td>
+            </tr>
+            <tr>
+                <td class="label">Contact Number:</td>
+                <td><%= contactNumber %></td>
+                <td class="label">Payment Method:</td>
+                <td><%= paymentMethod %></td>
+            </tr>
+        </table>
+
+        <h3>Product Details:</h3>
+        <table class="product-details">
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Sub Total</th>
+            </tr>
+            <% products.forEach(function(product) { %>
+                <tr>
+                    <td><%= product.productName %></td>
+                    <td><%= product.category %></td>
+                    <td><%= product.quantity %></td>
+                    <td><%= product.price %></td>
+                    <td><%= product.subTotal %></td>
+                </tr>
+            <% }); %>
+        </table>
+
+        <div class="total">
+            Total: <%= total %>
+        </div>
+
+        <div class="footer-message">
+            Thank you for visiting. Please visit again!!
+        </div>
+    </div>
+
+</body>
+
+</html>

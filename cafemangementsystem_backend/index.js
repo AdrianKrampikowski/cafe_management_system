@@ -3,6 +3,8 @@ const connectionDB = require("./dbConnection/db");
 const userRoutes = require("./apis/users/index");
 const categoryRoutes = require("./apis/categorys/index");
 const productRoutes = require("./apis/product/index");
+const billRoutes = require("./apis/bills/index");
+
 const cors = require("cors");
 require("dotenv").config();
 const mongodburl = process.env.mongodburl;
@@ -24,6 +26,7 @@ app.use(express.urlencoded({ extended: true })),
 app.use("/api/user", userRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/product", productRoutes);
+app.use("/api/bill", billRoutes);
 
 
 const start = async () => {
