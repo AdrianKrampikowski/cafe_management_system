@@ -14,22 +14,15 @@ const createBill = async (req, resp) => {
 
     try {
         const bill = new Bill(req.body);
-        await bill.save(); // Ensure the save completes before proceeding
-
+        await bill.save();
         const filePath = path.join(__dirname, "report.ejs");
-        console.log("Generated file path:", filePath);
 
-        // Check if file exists before rendering
         if (!fs.existsSync(filePath)) {
-            console.error("File not found:", filePath);
             return resp.status(400).json({ message: "File not found at " + filePath });
         }
 
-        console.log("Order Details:", orderDetails);
-        console.log("Product Details Report:", productDetailReport);
-
         ejs.renderFile(filePath, {
-            products: [productDetailReport], // If there's only one product, wrap it in an array
+            products: [productDetailReport],
             name: orderDetails.name,
             email: orderDetails.email,
             contactNumber: orderDetails.contactNumber,
@@ -37,11 +30,8 @@ const createBill = async (req, resp) => {
             total: orderDetails.total
         }, (err, result) => {
             if (err) {
-                console.log('Error in EJS rendering:', err);
                 return resp.status(400).json({ message: err });
             } else {
-                console.log("Rendered HTML:", result); // Log the HTML
-
                 pdf.create(result).toFile("./generated_pdf/" + generateuuid + ".pdf", (err, data) => {
                     if (err) {
                         return resp.status(400).json({ message: err });
