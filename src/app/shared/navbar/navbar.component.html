@@ -35,9 +35,14 @@
 
     <ng-container *ngIf="userLogined == true">
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with profile icon"
-            (click)="openDialog()">
+            [matMenuTriggerFor]="menu">
             <mat-icon>account_circle</mat-icon>
         </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="changePasswordDialog()">Change Password</button>
+            <button mat-menu-item>Item 2</button>
+        </mat-menu>
+
     </ng-container>
 
 

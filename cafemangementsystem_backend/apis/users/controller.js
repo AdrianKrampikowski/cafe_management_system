@@ -86,7 +86,6 @@ const changePassword = async (req, resp) => {
         user = user[0]
         if (user) {
             user.password = password;
-            console.log(user);
             await user.save();
             resp.status(200).json({ message: "password Updated" })
         } else {
@@ -105,14 +104,14 @@ const changeOwnPassword = async (req, resp) => {
         if (user.password == oldpassword) {
             user.password = newpassword;
             await user.save();
-            resp.status(200).json({ message: "Password changed" })
+            resp.status(200).json({ message: "Password changed" });
         } else if (user.password != oldpassword) {
-            resp.status(400).json({ message: "incorrect Password" })
+            resp.status(400).json({ message: "incorrect Password" });
         } else {
-            resp.status(404).json({ message: "incorrect Email" })
+            resp.status(404).json({ message: "incorrect Email" });
         }
     } catch (error) {
-        resp.status(400).json({ message: error.message })
+        resp.status(400).json({ message: error.message });
     }
 }
 

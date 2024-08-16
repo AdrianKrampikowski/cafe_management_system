@@ -46,4 +46,69 @@ const createBill = async (req, resp) => {
     }
 };
 
-module.exports = { createBill };
+const getpdf = async (req, resp) => {
+    try {
+        const orderDetails = req.body;
+        const pdfPath = "./generated_pdf/" + orderDetails.uuid + '.pdf';
+        console.log('pdfPath', pdfPath);
+        if (fs.existsSync(pdfPath)) {
+            resp.contentType("application/pdf");
+            fs.createReadStream(pdfPath).pipe(resp);
+        } else {
+            let productDetailReport = orderDetails.productDetails;
+
+            const filePath = path.join(__dirname, "report.ejs");
+            ejs.renderFile(filePath, {
+                products: [productDetailReport],
+                name: orderDetails.name,
+                email: orderDetails.email,
+                contactNumber: orderDetails.contactNumber,
+                paymentMethod: orderDetails.paymentMethod,
+                total: orderDetails.total
+            }, (err, result) => {
+                if (err) {
+                    return resp.status(400).json({ message: err });
+                } else {
+                    pdf.create(result).toFile("./generated_pdf/" + orderDetails.uuid + ".pdf", (err, data) => {
+                        if (err) {
+                            return resp.status(400).json({ message: err });
+                        } else {
+                            resp.contentType("application/pdf");
+                            return fs.createReadStream(pdfPath).pipe(resp);
+                        }
+                    });
+                }
+            });
+        }
+    } catch (error) {
+        return resp.status(400).json({ message: error.message });
+    }
+};
+
+const getBills = async (req, resp) => {
+    try {
+        const bill = await Bill.find();
+        if (bill.length < 1) {
+            resp.status(404).json({ message: "No Bill found" });
+        } else {
+            resp.status(200).json(bill);
+        }
+    } catch (error) {
+        resp.status(400).json({ message: error.message });
+    }
+};
+
+const deleteBill = async (req, resp) => {
+    try {
+        const bill = await Bill.findByIdAndDelete(req.params);
+        if (bill) {
+            resp.status(200).json({ message: "Bill deleted" });
+        } else {
+            resp.status(404).json({ message: "incorrect id" });
+        }
+    } catch (error) {
+        resp.status(400).json({ message: error.message });
+    }
+};
+
+module.exports = { createBill, getpdf, getBills, deleteBill };

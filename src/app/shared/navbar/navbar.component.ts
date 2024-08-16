@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../../auth/login/login.component';
 import { LogindialogComponent } from '../../auth/logindialog/logindialog.component';
 import { ForgotpasswordComponent } from '../../auth/forgotpassword/forgotpassword.component';
+import { ChangepasswordComponent } from '../../components/changepassword/changepassword.component';
 
 @Component({
   selector: 'app-navbar',
@@ -37,11 +38,9 @@ import { ForgotpasswordComponent } from '../../auth/forgotpassword/forgotpasswor
 export class NavbarComponent {
   constructor(public dialog: MatDialog) {}
 
-  userLogined: boolean = false;
+  userLogined: boolean = true;
 
-  openDialog(): void {
-
-  }
+  // openDialog(): void {}
 
   login() {
     const dialogRef = this.dialog.open(LogindialogComponent, {});
@@ -61,6 +60,14 @@ export class NavbarComponent {
 
   forgotPassword() {
     const dialogRef = this.dialog.open(ForgotpasswordComponent, {});
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  changePasswordDialog() {
+    const dialogRef = this.dialog.open(ChangepasswordComponent, {});
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
