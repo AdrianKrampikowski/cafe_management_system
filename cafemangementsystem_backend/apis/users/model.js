@@ -22,7 +22,8 @@ const UserSchema = new mongoose.Schema([{
     },
     status: {
         type: Boolean,
-        required: [true, "status is required"]
+        required: [true, "status is required"],
+        default: true
     },
     role: {
         type: String,
@@ -31,7 +32,8 @@ const UserSchema = new mongoose.Schema([{
                 "admin", "user", "superadmin"
             ],
             message: `{VALUE} is not supported`
-        }
+        },
+        default: "user"
     },
     createdAt: {
         type: Date,

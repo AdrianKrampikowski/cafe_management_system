@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import {
+  FormControl,
+  FormGroupDirective,
+  NgForm,
   Validators,
   FormsModule,
   ReactiveFormsModule,
   FormBuilder,
-  FormGroup,
-  AbstractControl,
-  ValidationErrors,
 } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { confirmPasswordValidator } from '../../validators/passwordmatchvalidator';
 import { CommonModule } from '@angular/common';
-
 @Component({
   selector: 'app-changepassword',
   standalone: true,
@@ -22,36 +26,30 @@ import { CommonModule } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatIconModule,
+    MatDividerModule,
+    MatButtonModule,
     CommonModule,
   ],
   templateUrl: './changepassword.component.html',
-  styleUrls: ['./changepassword.component.scss'],
+  styleUrl: './changepassword.component.scss',
 })
 export class ChangepasswordComponent {
-  passwordForm: FormGroup;
-
-  constructor(private fb: FormBuilder) {
-    this.passwordForm = this.fb.group({
-      username: [''], // Hidden username field for accessibility
+  constructor(public fb: FormBuilder) {}
+  passwordForm = this.fb.group(
+    {
       oldPassword: ['', Validators.required],
-      newPasswordOne: ['', Validators.required],
-      newPasswordTwo: ['', Validators.required],
-    });
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
+    },
+    { validators: confirmPasswordValidator() }
+  );
 
-    // Apply the custom validator to the newPasswordTwo field
-    this.passwordForm
-      .get('newPasswordTwo')
-      ?.setValidators(this.passwordsMatchValidator.bind(this));
-  }
-
-  passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
-    const newPasswordOne = this.passwordForm.get('newPasswordOne')?.value;
-    const newPasswordTwo = control.value;
-
-    if (newPasswordOne && newPasswordTwo && newPasswordOne !== newPasswordTwo) {
-      return { passwordsMismatch: true };
+  savePassword() {
+    if (this.passwordForm.valid) {
+      console.log(this.passwordForm.value);
     } else {
-      return null;
+      console.log('invalid');
     }
   }
 }

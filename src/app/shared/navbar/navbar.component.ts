@@ -38,7 +38,7 @@ import { ChangepasswordComponent } from '../../components/changepassword/changep
 export class NavbarComponent {
   constructor(public dialog: MatDialog) {}
 
-  userLogined: boolean = true;
+  userLogined: boolean = false;
 
   // openDialog(): void {}
 

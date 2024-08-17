@@ -13,6 +13,8 @@ import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-signup',
@@ -38,7 +40,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class SignupComponent {
   constructor(
     public dialogRef: MatDialogRef<SignupComponent>,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private authService: AuthService,
+    private snackBarService: SnackbarService
   ) {}
 
   userForm = this.fb.group({
@@ -56,6 +60,19 @@ export class SignupComponent {
   }
 
   signUp() {
-    console.log('userForm', this.userForm.value);
+    this.authService.signUp(this.userForm.value).subscribe(
+      (data: any) => {
+        if (data) {
+          this.snackBarService.openSnackbar('SignUp Successful', '');
+          console.log('dataIf', data);
+        } else {
+          this.snackBarService.openSnackbar(data.message, 'error');
+          console.log('dataElse', data);
+        }
+      },
+      (Error: any) => {
+        this.snackBarService.openSnackbar(Error.message, 'error');
+      }
+    );
   }
 }
