@@ -8,6 +8,7 @@ import { enviroment } from '../../enviroments/environment';
 export class AuthService {
   constructor(private httpclient: HttpClient) {}
   apiUrl = enviroment.apiUrl;
+  apiUrl = enviroment.apiUrl;
 
   signUp(data: any) {
     return this.httpclient.post(this.apiUrl + '/user/signup', data, {
