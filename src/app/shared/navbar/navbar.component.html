@@ -21,7 +21,7 @@
     <span class="example-spacer"></span>
 
 
-    <ng-container *ngIf="userLogined == false">
+    <ng-container *ngIf="authService.userLogined == false">
         <button mat-button (click)="login()">
             Login
         </button>
@@ -33,7 +33,7 @@
         </button>
     </ng-container>
 
-    <ng-container *ngIf="userLogined == true">
+    <ng-container *ngIf="authService.userLogined == true">
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with profile icon"
             [matMenuTriggerFor]="menu">
             <mat-icon>account_circle</mat-icon>

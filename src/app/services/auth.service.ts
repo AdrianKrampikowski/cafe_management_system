@@ -8,10 +8,16 @@ import { enviroment } from '../../enviroments/environment';
 export class AuthService {
   constructor(private httpclient: HttpClient) {}
   apiUrl = enviroment.apiUrl;
-  apiUrl = enviroment.apiUrl;
+  userLogined: boolean = false;
 
   signUp(data: any) {
     return this.httpclient.post(this.apiUrl + '/user/signup', data, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+    });
+  }
+
+  login(data: any) {
+    return this.httpclient.post(this.apiUrl + '/user/login', data, {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
     });
   }

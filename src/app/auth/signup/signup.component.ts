@@ -15,7 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { SnackbarService } from '../../services/snackbar.service';
-
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -60,19 +61,37 @@ export class SignupComponent {
   }
 
   signUp() {
-    this.authService.signUp(this.userForm.value).subscribe(
-      (data: any) => {
-        if (data) {
-          this.snackBarService.openSnackbar('SignUp Successful', '');
-          console.log('dataIf', data);
-        } else {
-          this.snackBarService.openSnackbar(data.message, 'error');
-          console.log('dataElse', data);
-        }
-      },
-      (Error: any) => {
-        this.snackBarService.openSnackbar(Error.message, 'error');
-      }
-    );
+    this.authService
+      .signUp(this.userForm.value)
+      .pipe(
+        tap((data: any) => {
+          if (data) {
+            this.snackBarService.openSnackbar('SignUp Successful', '');
+          } else {
+            this.snackBarService.openSnackbar(data.message, 'error');
+          }
+        }),
+        catchError((error: any) => {
+          this.snackBarService.openSnackbar(error.message, 'error');
+          return of(null);
+        })
+      )
+      .subscribe();
   }
+  // signUp() {
+  //   this.authService.signUp(this.userForm.value).subscribe(
+  //     (data: any) => {
+  //       if (data) {
+  //         this.snackBarService.openSnackbar('SignUp Successful', '');
+  //         console.log('dataIf', data);
+  //       } else {
+  //         this.snackBarService.openSnackbar(data.message, 'error');
+  //         console.log('dataElse', data);
+  //       }
+  //     },
+  //     (Error: any) => {
+  //       this.snackBarService.openSnackbar(Error.message, 'error');
+  //     }
+  //   );
+  // }
 }

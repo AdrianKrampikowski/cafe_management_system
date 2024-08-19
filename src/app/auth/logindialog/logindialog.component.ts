@@ -14,7 +14,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { AuthService } from '../../services/auth.service';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { SnackbarService } from '../../services/snackbar.service';
 @Component({
   selector: 'app-logindialog',
   standalone: true,
@@ -40,7 +43,9 @@ export class LogindialogComponent {
   constructor(
     public dialogRef: MatDialogRef<LogindialogComponent>,
     public fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    public authService: AuthService,
+    private snackBarService: SnackbarService
   ) {}
 
   loginForm = this.fb.group({
@@ -53,6 +58,24 @@ export class LogindialogComponent {
   }
 
   login() {
-    this.router.navigate(['/dashboard']);
+    this.authService
+      .login(this.loginForm.value)
+      .pipe(
+        tap((data: any) => {
+          if (data) {
+            this.authService.userLogined = true;
+            // localStorage.setItem('token', data.token);
+            this.snackBarService.openSnackbar('SignUp Successful', '');
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.snackBarService.openSnackbar(data.message, 'error');
+          }
+        }),
+        catchError((error: any) => {
+          this.snackBarService.openSnackbar(error.message, 'error');
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 }
