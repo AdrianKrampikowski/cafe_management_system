@@ -17,6 +17,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { confirmPasswordValidator } from '../../validators/passwordmatchvalidator';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { SnackbarService } from '../../services/snackbar.service';
+import { catchError, of, tap } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-changepassword',
   standalone: true,
@@ -35,7 +39,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './changepassword.component.scss',
 })
 export class ChangepasswordComponent {
-  constructor(public fb: FormBuilder) {}
+  constructor(
+    public fb: FormBuilder,
+    private authService: AuthService,
+    private snackbarService: SnackbarService,
+    public dialogRef: MatDialogRef<any>
+  ) {}
   passwordForm = this.fb.group(
     {
       oldPassword: ['', Validators.required],
@@ -46,10 +55,29 @@ export class ChangepasswordComponent {
   );
 
   savePassword() {
-    if (this.passwordForm.valid) {
-      console.log(this.passwordForm.value);
-    } else {
-      console.log('invalid');
-    }
+    this.authService
+      .changeOwnPassword(this.passwordForm.value)
+      .pipe(
+        tap((data: any) => {
+          if (data) {
+            this.snackbarService.openSnackbar('Password changed', '');
+            this.dialogRef.close();
+          } else {
+            this.snackbarService.openSnackbar(
+              'Password change failed',
+              'error'
+            );
+          }
+        }),
+        catchError((error: any) => {
+          this.snackbarService.openSnackbar(error.message, 'error');
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 }

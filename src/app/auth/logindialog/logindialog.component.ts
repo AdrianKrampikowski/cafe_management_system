@@ -64,7 +64,7 @@ export class LogindialogComponent {
         tap((data: any) => {
           if (data) {
             this.authService.userLogined = true;
-            // localStorage.setItem('token', data.token);
+            localStorage.setItem('token', data.token);
             this.snackBarService.openSnackbar('SignUp Successful', '');
             this.router.navigate(['/dashboard']);
           } else {

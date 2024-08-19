@@ -96,16 +96,26 @@ const changePassword = async (req, resp) => {
     }
 }
 
+function tokenEmail(token) {
+    if (token) {
+        let value = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+        return value;
+    }
+}
+
 const changeOwnPassword = async (req, resp) => {
-    const { email, oldpassword, newpassword } = req.body;
+    let token = req.header("Authorization");
+    const { oldPassword, password } = req.body;
+    const tokenValue = tokenEmail(token);
+    const email = tokenValue.email;
     try {
         let user = await User.where("email").equals(email).exec();
         user = user[0];
-        if (user.password == oldpassword) {
-            user.password = newpassword;
+        if (user.password == oldPassword) {
+            user.password = password;
             await user.save();
             resp.status(200).json({ message: "Password changed" });
-        } else if (user.password != oldpassword) {
+        } else if (user.password != oldPassword) {
             resp.status(400).json({ message: "incorrect Password" });
         } else {
             resp.status(404).json({ message: "incorrect Email" });
@@ -114,6 +124,5 @@ const changeOwnPassword = async (req, resp) => {
         resp.status(400).json({ message: error.message });
     }
 }
-
 
 module.exports = { signUp, login, getAllUsers, updateUser, changePassword, changeOwnPassword }

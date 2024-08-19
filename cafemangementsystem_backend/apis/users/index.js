@@ -9,7 +9,7 @@ router.route("/login").post(UserController.login)
 router.route("/users").get(auth, UserController.getAllUsers)
 router.route("/update").patch(auth, checkrole, UserController.updateUser)
 router.route("/changepassword").patch(auth, checkrole, UserController.changePassword)
-router.route("/changeownpassword").patch(UserController.changeOwnPassword)
+router.route("/changeOwnPassword").put(UserController.changeOwnPassword)
 
 
-module.exports = router
+module.exports = router;

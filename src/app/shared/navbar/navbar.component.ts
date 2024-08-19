@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -36,8 +36,15 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   constructor(public dialog: MatDialog, public authService: AuthService) {}
+
+  ngOnInit(): void {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      this.authService.userLogined = true;
+    }
+  }
 
   login() {
     const dialogRef = this.dialog.open(LogindialogComponent, {});
