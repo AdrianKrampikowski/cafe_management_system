@@ -18,6 +18,8 @@ import { AuthService } from '../../services/auth.service';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { SnackbarService } from '../../services/snackbar.service';
+import { OwncookieService } from '../../services/owncookie.service';
+
 @Component({
   selector: 'app-logindialog',
   standalone: true,
@@ -45,7 +47,8 @@ export class LogindialogComponent {
     public fb: FormBuilder,
     private router: Router,
     public authService: AuthService,
-    private snackBarService: SnackbarService
+    private snackBarService: SnackbarService,
+    private owncookieService: OwncookieService
   ) {}
 
   loginForm = this.fb.group({
@@ -64,7 +67,7 @@ export class LogindialogComponent {
         tap((data: any) => {
           if (data) {
             this.authService.userLogined = true;
-            localStorage.setItem('token', data.token);
+            this.owncookieService.setToken(data.token);
             this.snackBarService.openSnackbar('SignUp Successful', '');
             this.router.navigate(['/dashboard']);
           } else {

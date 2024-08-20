@@ -1,15 +1,19 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { enviroment } from '../../enviroments/environment';
+import { OwncookieService } from './owncookie.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private httpclient: HttpClient) {}
+  constructor(
+    private httpclient: HttpClient,
+    private ownCookieService: OwncookieService
+  ) {}
   apiUrl = enviroment.apiUrl;
   userLogined: boolean = false;
-  token: any = localStorage.getItem('token');
+  token: any = this.ownCookieService.getDecodedToken();
 
   signUp(data: any) {
     return this.httpclient.post(this.apiUrl + '/user/signup', data, {

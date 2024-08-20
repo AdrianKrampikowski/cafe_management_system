@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { DashboardService } from '../../services/dashboard.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,13 +14,16 @@ import { DashboardService } from '../../services/dashboard.service';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-  dashboard: any;
-  constructor(public dashboardService: DashboardService) {}
-  ngOnInit(): void {
-    this.loadDashboard();
-  }
   dashboardData: any;
-  loadDashboard() {
+  categoryData: any;
+
+  constructor(public dashboardService: DashboardService) {}
+
+  ngOnInit(): void {
+    this.loadDashboardCounts();
+  }
+
+  loadDashboardCounts() {
     this.dashboardService.loadDashboard().subscribe({
       next: (response: any) => {
         this.dashboardData = response;
@@ -30,6 +34,15 @@ export class DashboardComponent implements OnInit {
       // complete: () => {
       //   console.log('Dashboard loading complete');
       // },
+    });
+  }
+
+  viewCategory() {
+    this.dashboardService.viewCategory().subscribe({
+      next: (response: any) => {
+        this.categoryData = response;
+        console.log('categoryData', this.categoryData);
+      },
     });
   }
 }

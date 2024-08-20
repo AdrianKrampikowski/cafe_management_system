@@ -6,7 +6,7 @@
             <mat-card class="subcards">
                 <mat-card-content>Total Category</mat-card-content>
                 <mat-card-content> {{ dashboardData?.categoryCount }}</mat-card-content>
-                <button mat-flat-button color="warn">View Category</button>
+                <button mat-flat-button color="warn" (click)="viewCategory()">View Category</button>
             </mat-card>
             <mat-card class="subcards">
                 <mat-card-content>Total Product</mat-card-content>

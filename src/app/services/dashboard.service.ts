@@ -12,4 +12,13 @@ export class DashboardService {
   loadDashboard() {
     return this.httpclient.get(this.apiUrl + '/dashboard/getDetails');
   }
+
+  token: any = localStorage.getItem('token');
+  viewCategory() {
+    return this.httpclient.put(this.apiUrl + '/category/getCategory', {
+      headers: {
+        Authorization: this.token,
+      },
+    });
+  }
 }
