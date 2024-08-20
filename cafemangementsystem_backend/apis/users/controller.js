@@ -32,8 +32,6 @@ const login = async (req, resp) => {
         } else if (userQuery[0].password == user.password) {
             const response = { email: userQuery[0].email, role: userQuery[0].role }
             const acessToken = jwt.sign(response, process.env.ACESS_TOKEN, { expiresIn: "10h" });
-            console.log('response',response);
-            console.log('acessToken',acessToken);
             resp.status(200).json({ token: acessToken })
         } else {
             resp.status(400).json({ message: "Something went wrong" })
@@ -46,7 +44,6 @@ const login = async (req, resp) => {
 const getAllUsers = async (req, resp) => {
     try {
         const users = await User.where("role").equals("user").exec();
-        
         if (users.length == 0) {
             resp.status(400).json({ message: "no user exist" })
         } else {

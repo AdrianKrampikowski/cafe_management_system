@@ -15,12 +15,11 @@ export class UserService {
   ) {}
 
   loadAllUser() {
-    console.log('Token:', this.token);
-
-    const headers = new HttpHeaders().set('Authorization', this.token);
-
-    console.log('Headers:', headers.get('Authorization')); // Verify that the header is correctly set
-
+    // const headers = new HttpHeaders().set('Authorization', this.token);
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.token}`
+    );
     return this.httpclient.get(this.apiUrl + '/user/getAllUsers', {
       headers: headers,
     });
