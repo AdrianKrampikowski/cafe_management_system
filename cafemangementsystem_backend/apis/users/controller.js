@@ -55,32 +55,27 @@ const getAllUsers = async (req, resp) => {
 }
 
 const updateUser = async (req, resp) => {
-    const { _id, age, email, contactNumber, password, status, role } = req.body
+    const { id, status } = req.body;
     try {
-        let user = await User.findById(_id)
+        let user = await User.findById(id);
         if (user) {
-            user.age = age;
-            user.email = email;
-            user.contactNumber = contactNumber;
-            user.password = password;
-            user.status = status;
-            user.role = role;
-            await user.save()
-            resp.status(200).json({ message: "user has been updated" })
+            user.status = req.body.status;
+            await user.save();
+            resp.status(200).json({ message: "user has been updated" });
         } else {
-            resp.status(404).json({ message: "User with this ID doesnt exist" })
+            resp.status(404).json({ message: "User with this ID doesnt exist" });
         }
     } catch (error) {
-        resp.status(404).json({ message: error.message })
+        resp.status(404).json({ message: error.message });
     }
 }
 
 const checkToken = (req, resp) => {
-    resp.status(200).json({ message: "true" })
+    resp.status(200).json({ message: "true" });
 }
 
 const changePassword = async (req, resp) => {
-    const { email, password } = req.body
+    const { email, password } = req.body;
     try {
         let user = await User.where("email").equals(email).exec();
         user = user[0]

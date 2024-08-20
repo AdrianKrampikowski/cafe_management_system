@@ -14,38 +14,33 @@ export class UserService {
     private authService: AuthService
   ) {}
 
-  loadAllUser() {
-    // const headers = new HttpHeaders().set('Authorization', this.token);
+  setHeader() {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${this.token}`
     );
+    return headers;
+  }
+
+  loadAllUser() {
     return this.httpclient.get(this.apiUrl + '/user/getAllUsers', {
-      headers: headers,
+      headers: this.setHeader(),
     });
   }
 
-  // loadAllUser() {
-  //   console.log('token', this.token);
-
-  //   return this.httpclient.get(this.apiUrl + '/user/getAllUsers', {
-  //     headers: {
-  //       Authorization: this.token,
-  //     },
-  //   });
-  // }
-
-  // changeUserStatus(status: boolean) {
-  //   const data = { status: status };
-
-  //   return this.httpclient.patch(
-  //     this.apiUrl + '/user/updateUser',
-  //     data,
-  //     {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     }
-  //   );
-  // }
+  changeUserStatus(status: boolean, id: string) {
+    const data = { status: status, id: id };
+    return this.httpclient
+      .patch(this.apiUrl + '/user/updateUser', data, {
+        headers: this.setHeader(),
+      })
+      .subscribe({
+        next: (response) => {
+          console.log('Success:', response);
+        },
+        error: (error) => {
+          console.error('Request failed:', error);
+        },
+      });
+  }
 }

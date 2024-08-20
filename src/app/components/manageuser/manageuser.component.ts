@@ -9,6 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UserService } from '../../services/user.service';
 import { response } from 'express';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-manageuser',
@@ -42,7 +43,6 @@ export class ManageuserComponent implements OnInit {
       next: (response: any) => {
         this.userData = response;
         this.loadAllKeys();
-        console.log('userData', this.userData);
       },
       error: (error: any) => {
         console.error('Error loading dashboard:', error);
@@ -58,11 +58,10 @@ export class ManageuserComponent implements OnInit {
     } else {
       console.warn('No user data available.');
     }
-    console.log('displayedColumns', this.displayedColumns);
   }
 
-  onToggle(event: any): void {
-    this.userData.status = !this.userData.status;
-    console.log('Toggle state:', this.userData.status ? 'true' : 'false');
+  changeUserStatus(event: any, id: string, status: boolean): void {
+    status = !status;
+    this.userService.changeUserStatus(status, id);
   }
 }

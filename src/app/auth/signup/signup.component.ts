@@ -83,10 +83,8 @@ export class SignupComponent {
   //     (data: any) => {
   //       if (data) {
   //         this.snackBarService.openSnackbar('SignUp Successful', '');
-  //         console.log('dataIf', data);
   //       } else {
   //         this.snackBarService.openSnackbar(data.message, 'error');
-  //         console.log('dataElse', data);
   //       }
   //     },
   //     (Error: any) => {
