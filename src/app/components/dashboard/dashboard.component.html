@@ -11,7 +11,7 @@
             <mat-card class="subcards">
                 <mat-card-content>Total Product</mat-card-content>
                 <mat-card-content> {{ dashboardData?.productCount }}</mat-card-content>
-                <button mat-flat-button color="warn">View Product</button>
+                <button mat-flat-button color="warn" (click)="viewProduct()">View Product</button>
             </mat-card>
             <mat-card class="subcards">
                 <mat-card-content>Total Bill</mat-card-content>

@@ -12,6 +12,7 @@ import {
   MatDialogTitle,
   MatDialogContent,
 } from '@angular/material/dialog';
+import { ViewproductComponent } from '../viewproduct/viewproduct.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -49,8 +50,20 @@ export class DashboardComponent implements OnInit {
   viewCategory() {
     this.dashboardService.viewCategory().subscribe({
       next: (response: any) => {
-        console.log('response', response);
         this.dialog.open(ViewcategoryComponent, {
+          data: response,
+        });
+      },
+      error: (error: any) => {
+        console.error('Error loading dashboard:', error);
+      },
+    });
+  }
+
+  viewProduct() {
+    this.dashboardService.viewProduct().subscribe({
+      next: (response: any) => {
+        this.dialog.open(ViewproductComponent, {
           data: response,
         });
       },

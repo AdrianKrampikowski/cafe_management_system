@@ -22,4 +22,10 @@ export class DashboardService {
       headers: this.authService.setHeader(),
     });
   }
+
+  viewProduct() {
+    return this.httpclient.get(this.apiUrl + '/product/getAllProducts', {
+      headers: this.authService.setHeader(),
+    });
+  }
 }
