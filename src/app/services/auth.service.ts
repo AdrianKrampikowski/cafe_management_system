@@ -15,6 +15,14 @@ export class AuthService {
   userLogined: boolean = false;
   token: any = this.ownCookieService.getDecodedToken();
 
+  setHeader() {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.token}`
+    );
+    return headers;
+  }
+
   signUp(data: any) {
     return this.httpclient.post(this.apiUrl + '/user/signup', data, {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
@@ -29,9 +37,7 @@ export class AuthService {
 
   changeOwnPassword(data: any) {
     return this.httpclient.put(this.apiUrl + '/user/changeOwnPassword', data, {
-      headers: {
-        Authorization: this.token,
-      },
+      headers: this.setHeader(),
     });
   }
 }

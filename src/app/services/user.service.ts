@@ -14,17 +14,9 @@ export class UserService {
     private authService: AuthService
   ) {}
 
-  setHeader() {
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      `Bearer ${this.token}`
-    );
-    return headers;
-  }
-
   loadAllUser() {
     return this.httpclient.get(this.apiUrl + '/user/getAllUsers', {
-      headers: this.setHeader(),
+      headers: this.authService.setHeader(),
     });
   }
 
@@ -32,7 +24,7 @@ export class UserService {
     const data = { status: status, id: id };
     return this.httpclient
       .patch(this.apiUrl + '/user/updateUser', data, {
-        headers: this.setHeader(),
+        headers: this.authService.setHeader(),
       })
       .subscribe({
         next: (response) => {
@@ -43,5 +35,4 @@ export class UserService {
         },
       });
   }
-  
 }

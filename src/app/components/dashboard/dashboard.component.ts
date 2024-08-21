@@ -5,7 +5,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { DashboardService } from '../../services/dashboard.service';
 import { response } from 'express';
-
+import { ViewcategoryComponent } from '../viewcategory/viewcategory.component';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogTitle,
+  MatDialogContent,
+} from '@angular/material/dialog';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -17,7 +23,10 @@ export class DashboardComponent implements OnInit {
   dashboardData: any;
   categoryData: any;
 
-  constructor(public dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadDashboardCounts();
@@ -40,8 +49,13 @@ export class DashboardComponent implements OnInit {
   viewCategory() {
     this.dashboardService.viewCategory().subscribe({
       next: (response: any) => {
-        this.categoryData = response;
-        console.log('categoryData', this.categoryData);
+        console.log('response', response);
+        this.dialog.open(ViewcategoryComponent, {
+          data: response,
+        });
+      },
+      error: (error: any) => {
+        console.error('Error loading dashboard:', error);
       },
     });
   }
