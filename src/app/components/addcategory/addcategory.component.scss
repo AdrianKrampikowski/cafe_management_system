@@ -1,29 +1,16 @@
 .header {
+  background-color: darkorange;
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: darkorange;
-  color: white;
 }
 
-.form {
+.form-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.form-field{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-}
-
-.toggle{
-    display: flex;
-    flex-direction: column;
-
 }
 
 .buttons {

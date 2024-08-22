@@ -37,7 +37,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class ForgotpasswordComponent {
   constructor(
-    public dialogRef: MatDialogRef<ForgotpasswordComponent>,
+    public dialogRef: MatDialogRef<any>,
     public fb: FormBuilder
   ) {}
 

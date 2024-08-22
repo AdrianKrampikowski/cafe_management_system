@@ -60,7 +60,7 @@ export class ManageuserComponent implements OnInit {
     }
   }
 
-  changeUserStatus(event: any, id: string, status: boolean): void {
+  changeUserStatus(id: string, status: boolean): void {
     status = !status;
     this.userService.changeUserStatus(status, id).subscribe({
       next: (response) => {

@@ -17,10 +17,39 @@ export class DashboardService {
     return this.httpclient.get(this.apiUrl + '/dashboard/getDetails');
   }
 
+  addCategory(data: any) {
+    return this.httpclient.post(
+      this.apiUrl + '/category/createCategory',
+      data,
+      {
+        headers: this.authService.setHeader(),
+      }
+    );
+  }
+
   viewCategory() {
     return this.httpclient.get(this.apiUrl + '/category/getCategory', {
       headers: this.authService.setHeader(),
     });
+  }
+
+  updateCategory(categoryData: any) {
+    return this.httpclient.patch(
+      this.apiUrl + '/category/updateCategory',
+      categoryData,
+      {
+        headers: this.authService.setHeader(),
+      }
+    );
+  }
+
+  deleteCategory(categoryID: any) {
+    return this.httpclient.delete(
+      this.apiUrl + '/category/deleteCategory/' + categoryID,
+      {
+        headers: this.authService.setHeader(),
+      }
+    );
   }
 
   viewProduct() {

@@ -14,6 +14,8 @@ import {
   MatDialogContent,
 } from '@angular/material/dialog';
 import { EditcategoryComponent } from '../editcategory/editcategory.component';
+import { AddcategoryComponent } from '../addcategory/addcategory.component';
+import { SnackbarService } from '../../services/snackbar.service';
 @Component({
   selector: 'app-managecategory',
   standalone: true,
@@ -32,35 +34,50 @@ import { EditcategoryComponent } from '../editcategory/editcategory.component';
 export class ManagecategoryComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
+    private snackbarService: SnackbarService,
     private dialog: MatDialog
   ) {}
   value = '';
   productData: any = [];
-  displayedColumns: string[] = [
-    'sr',
-    'name',
-    'description',
-    'price',
-    'status',
-    'action',
-  ];
+  displayedColumns: string[] = ['sr', 'name', 'status', 'action'];
 
   ngOnInit(): void {
-    this.loadAllProducts();
+    this.loadAllCategorys();
   }
 
-  loadAllProducts() {
-    this.dashboardService.viewProduct().subscribe((data: any) => {
+  addCategory() {
+    const dialogRef = this.dialog.open(AddcategoryComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadAllCategorys();
+    });
+  }
+
+  loadAllCategorys() {
+    this.dashboardService.viewCategory().subscribe((data: any) => {
       if (data) {
         this.productData = data;
-        console.log(this.productData);
       }
     });
   }
 
   editCategory(categoryData: any) {
-    this.dialog.open(EditcategoryComponent, {
+    const dialogRef = this.dialog.open(EditcategoryComponent, {
       data: categoryData,
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadAllCategorys();
+    });
+  }
+
+  deleteCategory(categoryId: any) {
+    this.dashboardService
+      .deleteCategory(categoryId)
+      .subscribe((result: any) => {
+        if (result) {
+          this.snackbarService.openSnackbar(result.message, '');
+          this.loadAllCategorys();
+        }
+      });
   }
 }

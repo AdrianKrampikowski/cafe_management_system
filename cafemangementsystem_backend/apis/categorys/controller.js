@@ -31,11 +31,12 @@ const getCategory = async (req, resp) => {
 }
 
 const updateCategory = async (req, resp) => {
-    const { _id, name } = req.body;
+    const { _id, name, status } = req.body;
     try {
         const category = await Category.findById(_id);
         if (category) {
             category.name = name;
+            category.status = status;
             await category.save();
             resp.status(200).json({ message: "Category updated" });
         } else {
@@ -48,10 +49,11 @@ const updateCategory = async (req, resp) => {
 
 const deleteCategory = async (req, resp) => {
     try {
-        const category = await Category.findByIdAndDelete(req.params);
+        const category = await Category.findByIdAndDelete({ _id: req.params.categoryID });
         const result = await Product.deleteMany({ categoryID: req.params.categoryID });
-        if (category && result) {
-            resp.status(200).json({ message: `${result.deletedCount} products deleted.` });
+        if (category) {
+            const messageValue = result.deletedCount ? result.deletedCount : 'category deleted, No Products were linked';
+            resp.status(200).json({ message: `${messageValue} products deleted.` });
         } else {
             resp.status(404).json({ message: "Category not found" });
         }
