@@ -25,7 +25,9 @@ export class DashboardService {
 
   viewProduct() {
     return this.httpclient.get(this.apiUrl + '/product/getAllProducts', {
-      headers: this.authService.setHeader(),
+      headers: {
+        Authorization: `Bearer ${this.authService.token}`,
+      },
     });
   }
 }

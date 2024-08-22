@@ -13,6 +13,8 @@ import {
   MatDialogContent,
 } from '@angular/material/dialog';
 import { ViewproductComponent } from '../viewproduct/viewproduct.component';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -26,7 +28,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -48,28 +51,39 @@ export class DashboardComponent implements OnInit {
   }
 
   viewCategory() {
-    this.dashboardService.viewCategory().subscribe({
-      next: (response: any) => {
-        this.dialog.open(ViewcategoryComponent, {
-          data: response,
-        });
-      },
-      error: (error: any) => {
-        console.error('Error loading dashboard:', error);
-      },
-    });
+    this.router.navigate(['/managecategory']);
   }
 
   viewProduct() {
-    this.dashboardService.viewProduct().subscribe({
-      next: (response: any) => {
-        this.dialog.open(ViewproductComponent, {
-          data: response,
-        });
-      },
-      error: (error: any) => {
-        console.error('Error loading dashboard:', error);
-      },
-    });
+    this.router.navigate(['/manageproduct']);
   }
+
+  viewBill() {
+    this.router.navigate(['/viewbill']);
+  }
+  // viewCategory() {
+  //   this.dashboardService.viewCategory().subscribe({
+  //     next: (response: any) => {
+  //       this.dialog.open(ViewcategoryComponent, {
+  //         data: response,
+  //       });
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Error loading dashboard:', error);
+  //     },
+  //   });
+  // }
+
+  // viewProduct() {
+  //   this.dashboardService.viewProduct().subscribe({
+  //     next: (response: any) => {
+  //       this.dialog.open(ViewproductComponent, {
+  //         data: response,
+  //       });
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Error loading dashboard:', error);
+  //     },
+  //   });
+  // }
 }

@@ -31,7 +31,7 @@ const login = async (req, resp) => {
             resp.status(401).json({ message: "User is not active" })
         } else if (userQuery[0].password == user.password) {
             const response = { email: userQuery[0].email, role: userQuery[0].role }
-            const acessToken = jwt.sign(response, process.env.ACESS_TOKEN, { expiresIn: "10h" });
+            const acessToken = jwt.sign(response, process.env.ACCESS_TOKEN, { expiresIn: "10h" });
             resp.status(200).json({ token: acessToken })
         } else {
             resp.status(400).json({ message: "Something went wrong" })

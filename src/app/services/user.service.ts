@@ -22,17 +22,8 @@ export class UserService {
 
   changeUserStatus(status: boolean, id: string) {
     const data = { status: status, id: id };
-    return this.httpclient
-      .patch(this.apiUrl + '/user/updateUser', data, {
-        headers: this.authService.setHeader(),
-      })
-      .subscribe({
-        next: (response) => {
-          console.log('Success:', response);
-        },
-        error: (error) => {
-          console.error('Request failed:', error);
-        },
-      });
+    return this.httpclient.patch(this.apiUrl + '/user/updateUser', data, {
+      headers: this.authService.setHeader(),
+    });
   }
 }

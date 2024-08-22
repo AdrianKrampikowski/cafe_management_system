@@ -62,6 +62,14 @@ export class ManageuserComponent implements OnInit {
 
   changeUserStatus(event: any, id: string, status: boolean): void {
     status = !status;
-    this.userService.changeUserStatus(status, id);
+    this.userService.changeUserStatus(status, id).subscribe({
+      next: (response) => {
+        this.loadAllUser();
+        console.log('Success:', response);
+      },
+      error: (error) => {
+        console.error('Request failed:', error);
+      },
+    });
   }
 }

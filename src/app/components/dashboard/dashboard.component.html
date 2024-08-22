@@ -16,7 +16,7 @@
             <mat-card class="subcards">
                 <mat-card-content>Total Bill</mat-card-content>
                 <mat-card-content> {{ dashboardData?.billCount }}</mat-card-content>
-                <button mat-flat-button color="warn">View Bill</button>
+                <button mat-flat-button color="warn" (click)="viewBill()">View Bill</button>
             </mat-card>
         </mat-card-content>
     </mat-card>

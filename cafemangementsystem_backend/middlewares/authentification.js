@@ -8,7 +8,7 @@ function authentificationToken(req, resp, next) {
     if (token == null) {
         return resp.sendStatus(401);
     } else {
-        jwtToken.verify(token, process.env.ACESS_TOKEN, (err, response) => {
+        jwtToken.verify(token, process.env.ACCESS_TOKEN, (err, response) => {
             if (err) {
                 return resp.sendStatus(403);
             } else {
