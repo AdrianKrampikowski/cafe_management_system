@@ -16,6 +16,7 @@ import {
 import { EditcategoryComponent } from '../editcategory/editcategory.component';
 import { AddcategoryComponent } from '../addcategory/addcategory.component';
 import { SnackbarService } from '../../services/snackbar.service';
+
 @Component({
   selector: 'app-managecategory',
   standalone: true,
