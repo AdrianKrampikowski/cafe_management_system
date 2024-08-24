@@ -17,6 +17,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Component({
   selector: 'app-editproduct',
@@ -41,8 +42,15 @@ export class EditproductComponent implements OnInit {
     name: ['', Validators.required],
     price: ['', Validators.required],
     description: ['', Validators.required],
-    status: ['', Validators.required],
+    status: [true, [Validators.required, this.booleanValidator]],
   });
+
+  booleanValidator(control: AbstractControl): ValidationErrors | null {
+    if (typeof control.value === 'boolean') {
+      return null; // valid, no error (ChatGPT)
+    }
+    return { boolean: true }; // invalid, return error object (ChatGPT)
+  }
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public productData: any,
@@ -63,9 +71,10 @@ export class EditproductComponent implements OnInit {
   }
 
   changeProductStatus() {
-    let statusControl = this.productForm.get('status')?.value;
+    let statusControl = this.productForm.get('status');
     if (statusControl) {
-      statusControl.setValue(!statusControl.value);
+      const currentValue = statusControl.value; // Get the current value
+      statusControl.setValue(!currentValue); // Set the opposite value
     }
   }
 
