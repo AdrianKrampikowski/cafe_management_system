@@ -1,0 +1,24 @@
+:host ::ng-deep mat-card-header {
+  background-color: darkorange;
+  color: white;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 25px;
+  margin: 10px;
+}

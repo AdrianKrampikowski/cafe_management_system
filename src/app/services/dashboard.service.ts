@@ -59,4 +59,14 @@ export class DashboardService {
       },
     });
   }
+
+  updateProduct(categoryData: any) {
+    return this.httpclient.patch(
+      this.apiUrl + '/product/updateProduct/' + categoryData._id,
+      categoryData,
+      {
+        headers: this.authService.setHeader(),
+      }
+    );
+  }
 }

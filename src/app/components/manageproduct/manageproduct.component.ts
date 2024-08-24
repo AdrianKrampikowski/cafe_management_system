@@ -11,6 +11,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AddproductComponent } from '../addproduct/addproduct.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DashboardService } from '../../services/dashboard.service';
+import { CommonModule } from '@angular/common';
+import { EditproductComponent } from '../editproduct/editproduct.component';
 
 @Component({
   selector: 'app-manageproduct',
@@ -25,29 +27,31 @@ import { DashboardService } from '../../services/dashboard.service';
     FormsModule,
     MatTableModule,
     MatSlideToggleModule,
+    CommonModule,
   ],
   templateUrl: './manageproduct.component.html',
   styleUrl: './manageproduct.component.scss',
 })
 export class ManageproductComponent implements OnInit {
-  constructor(
-    private dialog: MatDialog,
-    private dashboardService: DashboardService
-  ) {}
   inputValue = '';
   productData: any = [];
   dataSource = this.productData;
-
+  isHolding = false;
+  holdTimeout: any;
   displayedColumns: string[] = [
-    '_id',
     'categoryID',
     'description',
     'name',
     'price',
-    // 'status',
     'createdAt',
-    'status'
+    'status',
+    'action',
   ];
+
+  constructor(
+    private dialog: MatDialog,
+    private dashboardService: DashboardService
+  ) {}
 
   ngOnInit(): void {
     this.loadAllProducts();
@@ -55,8 +59,6 @@ export class ManageproductComponent implements OnInit {
 
   loadAllProducts() {
     this.dashboardService.viewProduct().subscribe((products: any) => {
-      console.log(products);
-
       this.productData = products;
     });
   }
@@ -69,5 +71,39 @@ export class ManageproductComponent implements OnInit {
     });
   }
 
-  changeCategoryStatus() {}
+  changeCategoryStatus(product: any) {}
+
+  editCategoryStatus(product: any) {
+    const dialogRef = this.dialog.open(EditproductComponent, {
+      data: {
+        product,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadAllProducts();
+    });
+  }
+
+  onMouseDown(event: MouseEvent) {
+    this.isHolding = true;
+    this.holdTimeout = setTimeout(() => {
+      this.deleteCategoryStatus();
+    }, 1000);
+  }
+
+  onMouseUp() {
+    this.clearHold();
+  }
+  onMouseLeave() {
+    this.clearHold();
+  }
+  clearHold() {
+    clearTimeout(this.holdTimeout);
+    this.isHolding = false;
+  }
+  deleteCategoryStatus() {
+    console.log('Button held for more than 1 second');
+    this.isHolding = false;
+  }
 }

@@ -9,7 +9,7 @@
 
         <form class="form" [formGroup]="categoryForm">
             <div class="form-field">
-                <mat-form-field class="example-full-width">
+                <mat-form-field>
                     <mat-label>Name</mat-label>
                     <input type="text" matInput formControlName="name">
                     @if (categoryForm.hasError('required')) {
