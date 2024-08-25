@@ -43,7 +43,7 @@
                 <th mat-header-cell *matHeaderCellDef> Status </th>
                 <td mat-cell *matCellDef="let element">
                     <mat-slide-toggle [checked]="element.status" (change)="changeProductStatus(element)">
-                        Product Status: <br> {{ element.status ? 'active' : 'deactivated' }}
+                        {{ element.status ? 'active' : 'deactivated' }}
                     </mat-slide-toggle>
                 </td>
             </ng-container>

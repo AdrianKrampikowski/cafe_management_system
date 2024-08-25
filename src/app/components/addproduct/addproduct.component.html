@@ -23,9 +23,8 @@
                 <mat-form-field>
                     <mat-label>Category</mat-label>
                     <mat-select formControlName="category" multiple>
-
-                        @for (category of categoryList; track category) {
-                        <mat-option [value]="category">{{category}}</mat-option>
+                        @for (category of categoryList; track category.name) {
+                        <mat-option [value]="category">{{category.name}}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>
@@ -43,8 +42,8 @@
             </mat-form-field>
 
             <div class="buttons-container">
-                <button mat-flat-button disabled>Add</button>
                 <button mat-flat-button color="warn">Close</button>
+                <button mat-flat-button (click)="addProduct()">Add</button>
             </div>
         </mat-card-content>
     </form>

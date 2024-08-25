@@ -52,6 +52,12 @@ export class DashboardService {
     );
   }
 
+  addProduct(data: any) {
+    return this.httpclient.post(this.apiUrl + '/product/createProduct', data, {
+      headers: this.authService.setHeader(),
+    });
+  }
+
   viewProduct() {
     return this.httpclient.get(this.apiUrl + '/product/getAllProducts', {
       headers: {

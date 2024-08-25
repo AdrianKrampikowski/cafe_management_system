@@ -2,7 +2,7 @@ const { isForInStatement } = require("typescript");
 const Product = require("./model");
 
 const createProduct = async (req, resp) => {
-    const { name } = req.body;
+    const { name, categoryID } = req.body;
     try {
         let product = new Product(req.body);
         let exisitingProduct = Product.where("name").equals(name).exec();
