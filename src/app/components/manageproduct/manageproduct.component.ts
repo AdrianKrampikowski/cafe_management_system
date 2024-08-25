@@ -13,7 +13,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DashboardService } from '../../services/dashboard.service';
 import { CommonModule } from '@angular/common';
 import { EditproductComponent } from '../editproduct/editproduct.component';
-import { ChangeDetectorRef } from '@angular/core';
 import { catchError, of, tap } from 'rxjs';
 import { SnackbarService } from '../../services/snackbar.service';
 
@@ -54,7 +53,6 @@ export class ManageproductComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private dashboardService: DashboardService,
-    private cdr: ChangeDetectorRef,
     private snackbarService: SnackbarService
   ) {}
 
@@ -76,7 +74,6 @@ export class ManageproductComponent implements OnInit {
 
   changeProductStatus(productData: any) {
     productData.status = !productData.status;
-    // this.cdr.detectChanges();
     this.saveChangeProductStatus(productData);
   }
   saveChangeProductStatus(productData: boolean) {
@@ -110,24 +107,27 @@ export class ManageproductComponent implements OnInit {
     });
   }
 
-  onMouseDown(event: MouseEvent) {
-    this.isHolding = true;
-    this.holdTimeout = setTimeout(() => {
-      this.deleteCategoryStatus();
+  onMouseDown(event: MouseEvent, element: any) {
+    element.isHolding = true; // Set the holding state for this specific element
+    element.holdTimeout = setTimeout(() => {
+      this.deleteProduct(element); // Pass the element to the deleteProduct function
     }, 1000);
   }
 
-  onMouseUp() {
-    this.clearHold();
+  onMouseUp(element: any) {
+    this.clearHold(element); // Clear hold for the specific element
   }
-  onMouseLeave() {
-    this.clearHold();
+
+  onMouseLeave(element: any) {
+    this.clearHold(element); // Clear hold for the specific element if the mouse leaves
   }
-  clearHold() {
-    clearTimeout(this.holdTimeout);
-    this.isHolding = false;
+
+  clearHold(element: any) {
+    clearTimeout(element.holdTimeout); // Clear the timeout for this specific element
+    element.isHolding = false; // Reset the holding state for this specific element
   }
-  deleteCategoryStatus() {
+
+  deleteProduct(element: any) {
     console.log('Button held for more than 1 second');
     this.isHolding = false;
   }

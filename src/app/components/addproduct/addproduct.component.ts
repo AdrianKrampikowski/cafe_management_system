@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroupDirective,
@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { DashboardService } from '../../services/dashboard.service';
 @Component({
   selector: 'app-addproduct',
   standalone: true,
@@ -29,9 +30,8 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './addproduct.component.html',
   styleUrl: './addproduct.component.scss',
 })
-export class AddproductComponent {
-  constructor(public fb: FormBuilder) {}
-
+export class AddproductComponent implements OnInit {
+  categoryList: string[] = [];
   addProductForm = this.fb.group({
     name: ['', Validators.required],
     price: [null, Validators.required],
@@ -39,12 +39,14 @@ export class AddproductComponent {
     description: ['', Validators.required],
   });
 
-  categoryList: string[] = [
-    'Extra cheese',
-    'Mushroom',
-    'Onion',
-    'Pepperoni',
-    'Sausage',
-    'Tomato',
-  ];
+  constructor(
+    public fb: FormBuilder,
+    private dashboardService: DashboardService
+  ) {}
+
+  ngOnInit(): void {
+    this.dashboardService.viewCategory().subscribe((result: any) => {
+      this.categoryList = result.map((category: any) => category.name);
+    });
+  }
 }
