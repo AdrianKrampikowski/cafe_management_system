@@ -61,24 +61,26 @@ export class EditproductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.productForm.patchValue({
-      _id: this.productData.product._id,
-      name: this.productData.product.name,
-      price: this.productData.product.price,
-      description: this.productData.product.description,
-      status: this.productData.product.status,
+    this.productForm = this.fb.group({
+      _id: [this.productData.product._id],
+      name: [this.productData.product.name],
+      price: [this.productData.product.price],
+      description: [this.productData.product.description],
+      status: [this.productData.product.status],
+    });
+
+    this.productForm.get('status')?.valueChanges.subscribe(() => {
+      this.changeProductStatus();
     });
   }
 
   changeProductStatus() {
-    let statusControl = this.productForm.get('status');
-    if (statusControl) {
-      const currentValue = statusControl.value; // Get the current value
-      statusControl.setValue(!currentValue); // Set the opposite value
-    }
+    const statusValue = this.productForm.get('status')?.value;
   }
 
-  cancel() {}
+  cancel() {
+    this.dialogRef.close();
+  }
 
   updateProduct() {
     this.dashboardService

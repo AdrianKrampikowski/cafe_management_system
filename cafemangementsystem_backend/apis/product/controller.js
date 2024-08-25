@@ -64,7 +64,10 @@ const getProductByID = async (req, resp) => {
 }
 
 const updateProduct = async (req, resp) => {
-    const { name, price, description } = req.body;
+    console.log('req.body', req.body);
+    console.log('req.params', req.params);
+
+    const { name, price, description, status } = req.body;
     try {
         let product = await Product.find(req.params);
         product = product[0];
@@ -74,6 +77,7 @@ const updateProduct = async (req, resp) => {
             product.name = name;
             product.price = price;
             product.description = description;
+            product.status = status;
             await product.save();
             resp.status(200).json({ message: "Product " + product.name + " updated" });
         }
