@@ -64,9 +64,6 @@ const getProductByID = async (req, resp) => {
 }
 
 const updateProduct = async (req, resp) => {
-    console.log('req.body', req.body);
-    console.log('req.params', req.params);
-
     const { name, price, description, status } = req.body;
     try {
         let product = await Product.find(req.params);
@@ -77,6 +74,23 @@ const updateProduct = async (req, resp) => {
             product.name = name;
             product.price = price;
             product.description = description;
+            product.status = status;
+            await product.save();
+            resp.status(200).json({ message: "Product " + product.name + " updated" });
+        }
+    } catch (error) {
+        resp.status(400).json({ message: error.message });
+    }
+}
+
+const updateProductStatus = async (req, resp) => {
+    const { status } = req.body;
+    try {
+        let product = await Product.find(req.params);
+        product = product[0];
+        if (product.length < 1) {
+            resp.status(404).json({ message: "Product with this ID doesnt exist" });
+        } else {
             product.status = status;
             await product.save();
             resp.status(200).json({ message: "Product " + product.name + " updated" });
@@ -99,4 +113,4 @@ const deleteProductByID = async (req, resp) => {
     }
 }
 
-module.exports = { createProduct, getAllProducts, getProductByCategory, getProductByID, updateProduct, deleteProductByID };
+module.exports = { createProduct, getAllProducts, getProductByCategory, getProductByID, updateProduct, deleteProductByID, updateProductStatus };

@@ -69,9 +69,9 @@ export class EditproductComponent implements OnInit {
       status: [this.productData.product.status],
     });
 
-    this.productForm.get('status')?.valueChanges.subscribe(() => {
-      this.changeProductStatus();
-    });
+    // this.productForm.get('status')?.valueChanges.subscribe(() => {
+    //   this.changeProductStatus();
+    // });
   }
 
   changeProductStatus() {

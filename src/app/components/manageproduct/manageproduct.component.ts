@@ -13,6 +13,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DashboardService } from '../../services/dashboard.service';
 import { CommonModule } from '@angular/common';
 import { EditproductComponent } from '../editproduct/editproduct.component';
+import { ChangeDetectorRef } from '@angular/core';
+import { catchError, of, tap } from 'rxjs';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-manageproduct',
@@ -50,7 +53,9 @@ export class ManageproductComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private cdr: ChangeDetectorRef,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -66,12 +71,32 @@ export class ManageproductComponent implements OnInit {
   openAddProduct() {
     const dialogRef = this.dialog.open(AddproductComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  changeCategoryStatus(product: any) {}
+  changeProductStatus(productData: any) {
+    productData.status = !productData.status;
+    // this.cdr.detectChanges();
+    this.saveChangeProductStatus(productData);
+  }
+  saveChangeProductStatus(productData: boolean) {
+    this.dashboardService
+      .changeProductStatus(productData)
+      .pipe(
+        tap((data: any) => {
+          if (data) {
+            this.snackbarService.openSnackbar('Product changed', '');
+          } else {
+            this.snackbarService.openSnackbar('Product change failed', 'error');
+          }
+        }),
+        catchError((error: any) => {
+          this.snackbarService.openSnackbar(error.message, 'error');
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
 
   editCategoryStatus(product: any) {
     const dialogRef = this.dialog.open(EditproductComponent, {

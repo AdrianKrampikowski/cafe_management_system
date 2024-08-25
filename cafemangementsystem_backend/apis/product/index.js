@@ -9,6 +9,7 @@ router.route("/getAllProducts").get(auth, controller.getAllProducts);
 router.route("/getProductByCategory/:categoryID").get(auth, controller.getProductByCategory);
 router.route("/getProductByID/:_id").get(auth, controller.getProductByID);
 router.route("/updateProduct/:_id").patch(auth, role, controller.updateProduct);
+router.route("/updateProductStatus/:_id").patch(auth, role, controller.updateProductStatus);
 router.route("/deleteProductByID/:_id").delete(auth, role, controller.deleteProductByID);
 
 

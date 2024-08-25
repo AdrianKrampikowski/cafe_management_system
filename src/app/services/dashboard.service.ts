@@ -69,4 +69,13 @@ export class DashboardService {
       }
     );
   }
+  changeProductStatus(productData: any) {
+    return this.httpclient.patch(
+      this.apiUrl + '/product/updateProductStatus/' + productData._id,
+      productData,
+      {
+        headers: this.authService.setHeader(),
+      }
+    );
+  }
 }

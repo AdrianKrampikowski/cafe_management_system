@@ -33,7 +33,7 @@
             </mat-form-field>
 
             <div class="toggle">
-                <mat-label>Product Status: {{ productForm.get('status')?.value ? 'active' : 'not active' }}</mat-label>
+                <mat-label>Product Status: {{ productForm.get('status')?.value ? 'active' : 'deactivated' }}</mat-label>
                 <mat-slide-toggle formControlName="status" (change)="changeProductStatus()">
                 </mat-slide-toggle>
               </div>
