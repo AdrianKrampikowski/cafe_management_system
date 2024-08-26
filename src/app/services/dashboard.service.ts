@@ -2,16 +2,27 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { enviroment } from '../../enviroments/environment';
 import { AuthService } from './auth.service';
-
+import { OwncookieService } from './owncookie.service';
+import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
   constructor(
     private httpclient: HttpClient,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private ownCookieService: OwncookieService,
+    private cookieService: CookieService
+  ) {
+    this.encodedToken = this.decodedToken(this.encodedToken);
+  }
+
   apiUrl = enviroment.apiUrl;
+  encodedToken = this.cookieService.get('encodedToken');
+
+  private decodedToken(encodedToken: string) {
+    return atob(encodedToken);
+  }
 
   loadDashboard() {
     return this.httpclient.get(this.apiUrl + '/dashboard/getDetails');
@@ -22,14 +33,15 @@ export class DashboardService {
       this.apiUrl + '/category/createCategory',
       data,
       {
-        headers: this.authService.setHeader(),
+        headers: { Authorization: `Bearer ${this.encodedToken}` },
       }
     );
   }
 
   viewCategory() {
     return this.httpclient.get(this.apiUrl + '/category/getCategory', {
-      headers: this.authService.setHeader(),
+      // headers: this.authService.setHeader(),
+      headers: { Authorization: `Bearer ${this.encodedToken}` },
     });
   }
 
@@ -38,7 +50,7 @@ export class DashboardService {
       this.apiUrl + '/category/updateCategory',
       categoryData,
       {
-        headers: this.authService.setHeader(),
+        headers: { Authorization: `Bearer ${this.encodedToken}` },
       }
     );
   }
@@ -47,7 +59,7 @@ export class DashboardService {
     return this.httpclient.delete(
       this.apiUrl + '/category/deleteCategory/' + categoryID,
       {
-        headers: this.authService.setHeader(),
+        headers: { Authorization: `Bearer ${this.encodedToken}` },
       }
     );
   }
@@ -56,14 +68,14 @@ export class DashboardService {
     console.log('data', data);
 
     return this.httpclient.post(this.apiUrl + '/product/createProduct', data, {
-      headers: this.authService.setHeader(),
+      headers: { Authorization: `Bearer ${this.encodedToken}` },
     });
   }
 
   viewProduct() {
     return this.httpclient.get(this.apiUrl + '/product/getAllProducts', {
       headers: {
-        Authorization: `Bearer ${this.authService.token}`,
+        Authorization: `Bearer ${this.encodedToken}`,
       },
     });
   }
@@ -73,7 +85,7 @@ export class DashboardService {
       this.apiUrl + '/product/updateProduct/' + categoryData._id,
       categoryData,
       {
-        headers: this.authService.setHeader(),
+        headers: { Authorization: `Bearer ${this.encodedToken}` },
       }
     );
   }
@@ -82,7 +94,7 @@ export class DashboardService {
       this.apiUrl + '/product/updateProductStatus/' + productData._id,
       productData,
       {
-        headers: this.authService.setHeader(),
+        headers: { Authorization: `Bearer ${this.encodedToken}` },
       }
     );
   }
@@ -92,7 +104,7 @@ export class DashboardService {
       this.apiUrl + '/product/updateProductStatus/' + productData._id,
       productData,
       {
-        headers: this.authService.setHeader(),
+        headers: { Authorization: `Bearer ${this.encodedToken}` },
       }
     );
   }

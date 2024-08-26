@@ -18,11 +18,11 @@ export class AuthService {
   token: any = this.ownCookieService.getDecodedToken();
 
   setHeader() {
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      `Bearer ${this.token}`
-    );
-    return headers;
+    // const headers = new HttpHeaders().set(
+    //   'Authorization',
+    //   `Bearer ${this.token}`
+    // );
+    // return headers;
   }
 
   signUp(data: any) {
@@ -39,12 +39,16 @@ export class AuthService {
 
   changeOwnPassword(data: any) {
     return this.httpclient.put(this.apiUrl + '/user/changeOwnPassword', data, {
-      headers: this.setHeader(),
+      headers: { Authorization: `Bearer ${this.token}` },
     });
   }
 
   isLoggedIn(): boolean {
-    const sessionToken = this.cookieService.get('sessionToken');
-    return !!sessionToken;
+    const sessionToken = this.cookieService.get('encodedToken');
+    if (sessionToken) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

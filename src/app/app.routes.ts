@@ -6,10 +6,11 @@ import { ManageproductComponent } from './components/manageproduct/manageproduct
 import { ManagecategoryComponent } from './components/managecategory/managecategory.component';
 import { ViewbillComponent } from './components/viewbill/viewbill.component';
 import { ManageuserComponent } from './components/manageuser/manageuser.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate:[authGuard] },
   { path: 'managecategory', component: ManagecategoryComponent },
   { path: 'manageorder', component: ManageorderComponent },
   { path: 'manageproduct', component: ManageproductComponent },

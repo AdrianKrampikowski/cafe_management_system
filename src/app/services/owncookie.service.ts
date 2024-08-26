@@ -31,6 +31,8 @@ export class OwncookieService {
 
   getDecodedToken() {
     const encodedToken = this.cookieService.get('encodedToken');
+    console.log('encodedToken', encodedToken);
+
     return this.decodedToken(encodedToken);
     // const decodedToken =
     // return this.cookieService.get('token');
