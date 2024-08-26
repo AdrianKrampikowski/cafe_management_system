@@ -53,6 +53,8 @@ export class DashboardService {
   }
 
   addProduct(data: any) {
+    console.log('data', data);
+
     return this.httpclient.post(this.apiUrl + '/product/createProduct', data, {
       headers: this.authService.setHeader(),
     });

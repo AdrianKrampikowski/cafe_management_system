@@ -24,6 +24,8 @@ export class OwncookieService {
     this.cookieService.set('encodedToken', encodedToken, {
       expires: 7,
       path: '/',
+      secure: true, // Ensure the connection is secure if you're using HTTPS
+      sameSite: 'Lax', // Or 'None' if the cookie is used cross-site
     });
   }
 

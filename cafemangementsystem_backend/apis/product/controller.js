@@ -2,14 +2,16 @@ const { isForInStatement } = require("typescript");
 const Product = require("./model");
 
 const createProduct = async (req, resp) => {
-    const { name, categoryID } = req.body;
+    const { _id, name, status, description } = req.body;
     try {
         let product = new Product(req.body);
+        product.categoryID = req.body.category._id;               
         let exisitingProduct = Product.where("name").equals(name).exec();
         if (exisitingProduct == product.name) {
             resp.status(400).json({ message: "Product still exist" });
         } else {
             await product.save();
+
             resp.status(200).json({ message: "Product added" });
         }
     } catch (error) {

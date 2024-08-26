@@ -36,7 +36,7 @@ export class AddproductComponent implements OnInit {
   categoryList: any[] = [];
   addProductForm = this.fb.group({
     name: ['', Validators.required],
-    price: [null, Validators.required],
+    price: ['', Validators.required],
     category: ['', Validators.required],
     description: ['', Validators.required],
   });
@@ -58,23 +58,27 @@ export class AddproductComponent implements OnInit {
     if (this.addProductForm.value.category) {
       this.addProductForm.value.category =
         this.addProductForm.value.category[0];
+      let formValue = this.addProductForm.value;
+      if (formValue.price) {
+        formValue.price = formValue.price?.replace(',', '.');
+      }
+      console.log('this.addProductForm.value', this.addProductForm.value);
+      this.dashboardService
+        .addProduct(this.addProductForm.value)
+        .pipe(
+          tap((data: any) => {
+            if (data) {
+              this.snackbarService.openSnackbar('Product added', '');
+            } else {
+              this.snackbarService.openSnackbar('Product add failed', 'error');
+            }
+          }),
+          catchError((error: any) => {
+            this.snackbarService.openSnackbar(error.message, 'error');
+            return of(null);
+          })
+        )
+        .subscribe();
     }
-
-    //   this.dashboardService
-    //     .addProduct(productData)
-    //     .pipe(
-    //       tap((data: any) => {
-    //         if (data) {
-    //           this.snackbarService.openSnackbar('Product added', '');
-    //         } else {
-    //           this.snackbarService.openSnackbar('Product add failed', 'error');
-    //         }
-    //       }),
-    //       catchError((error: any) => {
-    //         this.snackbarService.openSnackbar(error.message, 'error');
-    //         return of(null);
-    //       })
-    //     )
-    //     .subscribe();
   }
 }
