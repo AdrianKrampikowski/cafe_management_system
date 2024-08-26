@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { enviroment } from '../../enviroments/environment';
 import { OwncookieService } from './owncookie.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,8 @@ import { OwncookieService } from './owncookie.service';
 export class AuthService {
   constructor(
     private httpclient: HttpClient,
-    private ownCookieService: OwncookieService
+    private ownCookieService: OwncookieService,
+    private cookieService: CookieService
   ) {}
   apiUrl = enviroment.apiUrl;
   userLogined: boolean = false;
@@ -39,5 +41,10 @@ export class AuthService {
     return this.httpclient.put(this.apiUrl + '/user/changeOwnPassword', data, {
       headers: this.setHeader(),
     });
+  }
+
+  isLoggedIn(): boolean {
+    const sessionToken = this.cookieService.get('sessionToken');
+    return !!sessionToken;
   }
 }

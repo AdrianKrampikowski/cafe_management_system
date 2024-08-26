@@ -12,5 +12,4 @@ router.route("/updateProduct/:_id").patch(auth, role, controller.updateProduct);
 router.route("/updateProductStatus/:_id").patch(auth, role, controller.updateProductStatus);
 router.route("/deleteProductByID/:_id").delete(auth, role, controller.deleteProductByID);
 
-
 module.exports = router;

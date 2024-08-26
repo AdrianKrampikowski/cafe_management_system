@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 // import { AppComponent } from './app.component';
 // import { SidenavComponent } from './sidenav/sidenav.component';
 
@@ -24,7 +25,7 @@ import { Router } from '@angular/router';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
-  constructor(public router: Router) {}
+  constructor(public router: Router, private authService: AuthService) {}
   navItems = [
     { name: 'Dashboard', icon: 'dashboard', url: '/dashboard' },
     { name: 'Manage Category', icon: 'category', url: '/managecategory' },
@@ -35,6 +36,9 @@ export class SidebarComponent {
   ];
 
   changePage(url: string) {
-    this.router.navigate([`/${url}`]);
+    const userIsLoggedIn = this.authService.isLoggedIn();
+    if (userIsLoggedIn) {
+      this.router.navigate([`/${url}`]);
+    }
   }
 }
