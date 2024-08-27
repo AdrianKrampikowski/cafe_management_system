@@ -5,14 +5,12 @@
     </mat-card-content>
 
     <mat-card-content class="manage-product-middle-container">
-        <mat-form-field>
-            <mat-label>Input</mat-label>
-            <input matInput type="text" [(ngModel)]="inputValue" class="input-field">
-            @if (inputValue) {
-            <button matSuffix mat-icon-button aria-label="Clear" (click)="inputValue=''">
+        <mat-form-field class="input-field">
+            <mat-label>Filter</mat-label>
+            <input matInput type="text" [(ngModel)]="inputValue" (keyup)="applyFilter($event)">
+            <button *ngIf="inputValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
                 <mat-icon>close</mat-icon>
             </button>
-            }
         </mat-form-field>
     </mat-card-content>
 

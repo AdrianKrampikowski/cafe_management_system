@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AddproductComponent } from '../addproduct/addproduct.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -36,8 +36,9 @@ import { SnackbarService } from '../../services/snackbar.service';
 })
 export class ManageproductComponent implements OnInit {
   inputValue = '';
-  productData: any = [];
-  dataSource = this.productData;
+  productData = new MatTableDataSource<any>();
+  // productData: any = [];
+  // dataSource = this.productData;
   isHolding = false;
   holdTimeout: any;
   displayedColumns: string[] = [
@@ -58,17 +59,30 @@ export class ManageproductComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllProducts();
+    this.productData.filterPredicate = (data: any, filter: string): boolean => {
+      const transformedFilter = filter.trim().toLowerCase();
+
+      const transformedPrice = data.price
+        .toString()
+        .replace(',', '.')
+        .toLowerCase();
+
+      return (
+        data.description.toLowerCase().includes(transformedFilter) ||
+        data.name.toLowerCase().includes(transformedFilter) ||
+        transformedPrice.includes(transformedFilter)
+      );
+    };
   }
 
   loadAllProducts() {
     this.dashboardService.viewProduct().subscribe((products: any) => {
-      this.productData = products;
+      this.productData.data = products;
     });
   }
 
   openAddProduct() {
     const dialogRef = this.dialog.open(AddproductComponent);
-
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
@@ -105,6 +119,24 @@ export class ManageproductComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.loadAllProducts();
     });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+    this.productData.filter = filterValue;
+    if (this.productData.paginator) {
+      this.productData.paginator.firstPage();
+    }
+  }
+
+  clearFilter() {
+    this.inputValue = '';
+    this.productData.filter = '';
+    if (this.productData.paginator) {
+      this.productData.paginator.firstPage();
+    }
   }
 
   onMouseDown(event: MouseEvent, element: any) {
