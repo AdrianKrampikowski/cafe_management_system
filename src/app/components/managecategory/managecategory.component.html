@@ -9,12 +9,10 @@
 
         <mat-form-field class="input-field">
             <mat-label>Filter</mat-label>
-            <input matInput type="text" [(ngModel)]="value">
-            @if (value) {
-            <button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <input matInput type="text" [(ngModel)]="value" (keyup)="applyFilter($event)">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
                 <mat-icon>close</mat-icon>
             </button>
-            }
         </mat-form-field>
 
         <table mat-table [dataSource]="productData">

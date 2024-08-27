@@ -17,6 +17,7 @@ import { EditcategoryComponent } from '../editcategory/editcategory.component';
 import { AddcategoryComponent } from '../addcategory/addcategory.component';
 import { SnackbarService } from '../../services/snackbar.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-managecategory',
@@ -30,6 +31,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
     MatFormFieldModule,
     MatTableModule,
     MatPaginatorModule,
+    CommonModule,
   ],
   templateUrl: './managecategory.component.html',
   styleUrl: './managecategory.component.scss',
@@ -53,6 +55,9 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadAllCategorys();
+    this.productData.filterPredicate = (data: any, filter: string): boolean => {
+      return data.name.toLowerCase().includes(filter);
+    };
   }
 
   addCategory() {
@@ -80,6 +85,25 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.loadAllCategorys();
     });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+    this.productData.filter = filterValue;
+
+    if (this.productData.paginator) {
+      this.productData.paginator.firstPage();
+    }
+  }
+
+  clearFilter() {
+    this.value = '';
+    this.productData.filter = '';
+    if (this.productData.paginator) {
+      this.productData.paginator.firstPage();
+    }
   }
 
   deleteCategory(categoryId: any) {
