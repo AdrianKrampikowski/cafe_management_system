@@ -22,7 +22,8 @@
             <!-- SerialNumber Column -->
             <ng-container matColumnDef="sr">
                 <th mat-header-cell *matHeaderCellDef> Serial Number </th>
-                <td mat-cell *matCellDef="let element; let i = index">{{i + 1}}</td>
+                <td mat-cell *matCellDef="let element; let i = index">{{(paginator.pageIndex * paginator.pageSize) + i +
+                    1}}</td>
             </ng-container>
 
             <!-- Name Column -->
