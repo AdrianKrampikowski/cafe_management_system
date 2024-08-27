@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root',
 })
 export class OwncookieService {
+  // encodedToken = this.cookieService.get('encodedToken');
+
   constructor(private cookieService: CookieService) {}
 
   private encodeToken(token: string) {
@@ -16,27 +18,40 @@ export class OwncookieService {
   }
 
   setToken(token: string) {
-    const encodedToken = this.encodeToken(token);
-    // this.cookieService.set('token', token, {
-    //   expires: 7,
-    //   path: '/',
-    // });
-    this.cookieService.set('encodedToken', encodedToken, {
+    // Don't encode the token, just store it directly
+    this.cookieService.set('encodedToken', token, {
       expires: 7,
       path: '/',
-      secure: true, // Ensure the connection is secure if you're using HTTPS
-      sameSite: 'Lax', // Or 'None' if the cookie is used cross-site
+      secure: true, // Only sent over HTTPS
+      sameSite: 'Lax',
     });
+  }
+  // setToken(token: string) {
+  //   const encodedToken = this.encodeToken(token);
+  //   console.log('Original Token:', token);
+  //   console.log('Encoded Token:', encodedToken);
+  //   this.cookieService.set('encodedToken', encodedToken, {
+  //     expires: 7,
+  //     path: '/',
+  //     secure: true,
+  //     sameSite: 'Lax',
+  //   });
+  // }
+
+  getEncodedToken() {
+    return this.cookieService.get('encodedToken');
   }
 
   getDecodedToken() {
-    const encodedToken = this.cookieService.get('encodedToken');
-    console.log('encodedToken', encodedToken);
-
-    return this.decodedToken(encodedToken);
-    // const decodedToken =
-    // return this.cookieService.get('token');
+    const encodedToken = this.getEncodedToken();
+    return encodedToken;
   }
+  // getDecodedToken() {
+  //   const encodedToken = this.cookieService.get('encodedToken');
+  //   return this.decodedToken(encodedToken);
+  //   // const decodedToken =
+  //   // return this.cookieService.get('token');
+  // }
 
   deleteToken() {
     this.cookieService.delete('token', '/');

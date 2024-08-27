@@ -5,7 +5,8 @@ const createCategory = async (req, resp) => {
     const { name } = req.body
     try {
         let category = await new Category(req.body);
-        const existingCategory = await Category.where("name").equals(name).exec()
+        const existingCategory = await Category.where("name").equals(name).exec();
+        console.log('existingCategory',existingCategory);
         if (existingCategory.length < 1) {
             await category.save();
             resp.status(200).json({ message: "Category added" })

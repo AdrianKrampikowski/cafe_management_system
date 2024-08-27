@@ -17,7 +17,14 @@ export class AuthService {
   userLogined: boolean = false;
   token: any = this.ownCookieService.getDecodedToken();
 
-  setHeader() {
+  getHeaders() {
+    const encodedToken = this.ownCookieService.getEncodedToken(); 
+    return {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${encodedToken}`,
+      }),
+    };
+
     // const headers = new HttpHeaders().set(
     //   'Authorization',
     //   `Bearer ${this.token}`
