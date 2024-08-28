@@ -48,7 +48,6 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
     this.productData.paginator = this.paginator;
   }
   value = '';
-  // productData: any = [];
   datalength: any;
   productData = new MatTableDataSource<any>(); // Initialize as MatTableDataSource
   displayedColumns: string[] = ['sr', 'name', 'status', 'action'];
@@ -58,6 +57,9 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
     this.productData.filterPredicate = (data: any, filter: string): boolean => {
       return data.name.toLowerCase().includes(filter);
     };
+    setTimeout(() => {
+      console.log(this.productData);
+    }, 1000);
   }
 
   addCategory() {
@@ -72,7 +74,6 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
       if (data) {
         this.productData.data = data;
         this.datalength = data.length;
-        // this.productData = new MatTableDataSource(data);
       }
     });
   }
