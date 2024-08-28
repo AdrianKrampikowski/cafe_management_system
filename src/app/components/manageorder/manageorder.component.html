@@ -66,47 +66,52 @@
         <mat-card-content class="select-products-top">
             <mat-card-title>Select Product</mat-card-title>
             <form class="example-form" [formGroup]="customerForm">
+
                 <mat-form-field>
                     <mat-label>Category</mat-label>
-                    <mat-select formControlName="paymentMethod">
-                        <mat-option value="one">???</mat-option>
-                        <mat-option value="two">???</mat-option>
+                    <mat-select formControlName="category" (selectionChange)="loadProducts($event)">
+                        @for (category of categoryData; track category.name) {
+                        <mat-option [value]="category">{{category.name}}</mat-option>
+                        }
                     </mat-select>
-                    @if (customerForm.get('paymentMethod')?.hasError('required')){
-                    <mat-error>Please select a Category</mat-error>
-                    }
                 </mat-form-field>
+
                 <mat-form-field>
                     <mat-label>Product</mat-label>
-                    <mat-select formControlName="paymentMethod">
-                        <mat-option value="one">???</mat-option>
-                        <mat-option value="two">???</mat-option>
+                    <mat-select formControlName="product" (selectionChange)="loadProductPriceQuantity($event)">
+                        @for (product of productData; track product.name) {
+                        <mat-option [value]="product">{{product.name}}</mat-option>
+                        }
                     </mat-select>
-                    @if (customerForm.get('paymentMethod')?.hasError('required')){
-                    <mat-error>Please select a Product</mat-error>
-                    }
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+
+                <mat-form-field>
                     <mat-label>Price</mat-label>
-                    <input type="number" matInput formControlName="price" placeholder="Price">
-                    @if (customerForm.get('price')?.hasError('required')) {
-                    <mat-error>Price is <strong>required</strong></mat-error>
+                    <input type="text" matInput formControlName="price" readonly [value]="selectedProductPrice">
+                    @if (customerForm.hasError('price') && !customerForm.hasError('required')) {
+                    <mat-error>Price databank Error</mat-error>
                     }
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+
+                <mat-form-field>
                     <mat-label>Quantity</mat-label>
-                    <input type="number" matInput formControlName="quantity" placeholder="Quantity">
-                    @if (customerForm.get('quantity')?.hasError('quantity') &&
-                    !customerForm.get('quantity')?.hasError('required')) {
-                    <mat-error>Please enter a valid Quantity</mat-error>
-                    }
-                    @if (customerForm.get('quantity')?.hasError('required')) {
-                    <mat-error>Quantity is <strong>required</strong></mat-error>
+                    <input type="number" matInput formControlName="quantity" [value]="selectedProductQuantity">
+                    @if (customerForm.hasError('quantity') && !customerForm.hasError('required')) {
+                    <mat-error>Quanity is <strong>required</strong></mat-error>
                     }
                 </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Total</mat-label>
+                    <input type="text" matInput formControlName="price" readonly>
+                    @if (customerForm.hasError('total') && !customerForm.hasError('required')) {
+                    <mat-error>Total databank Error</mat-error>
+                    }
+                </mat-form-field>
+
                 <mat-form-field class="example-full-width">
                     <mat-label>Total</mat-label>
-                    <input type="number" matInput formControlName="total" placeholder="0">
+                    <input type="number" matInput formControlName="total" placeholder="0" >
                     @if (customerForm.get('total')?.hasError('total') &&
                     !customerForm.get('total')?.hasError('required')) {
                     <mat-error>Please enter a valid Total</mat-error>
@@ -125,7 +130,7 @@
     </mat-card>
 
     <mat-card>
-        <table mat-table  class="mat-elevation-z8">
+        <table mat-table class="mat-elevation-z8">
 
             <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->

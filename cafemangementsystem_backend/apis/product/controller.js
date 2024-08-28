@@ -5,7 +5,7 @@ const createProduct = async (req, resp) => {
     const { _id, name, status, description } = req.body;
     try {
         let product = new Product(req.body);
-        product.categoryID = req.body.category._id;               
+        product.categoryID = req.body.category._id;
         let exisitingProduct = Product.where("name").equals(name).exec();
         if (exisitingProduct == product.name) {
             resp.status(400).json({ message: "Product still exist" });
@@ -41,7 +41,7 @@ const getAllProducts = async (req, resp) => {
 
 const getProductByCategory = async (req, resp) => {
     try {
-        let product = await Product.find(req.params);
+        let product = await Product.find(req.body);
         if (product.length < 1) {
             resp.status(404).json({ message: "No Product with this CategoryID exist" });
         } else {
