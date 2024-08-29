@@ -68,18 +68,19 @@ export class ManageorderComponent implements OnInit {
     'Delete',
   ];
 
+  categoryData: any;
+  productData: any;
+
   ngOnInit(): void {
     this.loadCategorys();
   }
 
-  categoryData: any;
   loadCategorys() {
     this.dashboardService.viewCategory().subscribe((data: any) => {
       this.categoryData = data;
     });
   }
 
-  productData: any;
   loadProducts(value: any) {
     const categoryID = { categoryID: value.value._id };
     this.orderService
@@ -87,8 +88,12 @@ export class ManageorderComponent implements OnInit {
       .subscribe((data: any) => {
         this.productData = data;
       });
-    this.customerForm.get('price')?.setValue('');
-    this.customerForm.get('quantity')?.setValue('');
+
+    this.customerForm.patchValue({
+      price: '',
+      quantity: '',
+      total: '',
+    });
     // this.dashboardService.viewProduct().subscribe((data: any) => {
     //   this.productData = data.filter((product: any) => {
     //     return product.categoryID.includes(value.value._id);
@@ -97,13 +102,55 @@ export class ManageorderComponent implements OnInit {
   }
 
   loadProductPriceQuantity(event: any) {
-    this.customerForm.get('price')?.setValue(event.value.price);
-    this.customerForm.get('quantity')?.setValue('1');
+    this.customerForm.patchValue({
+      price: event.value.price,
+      quantity: '1',
+    });
+    this.calculateTotal();
   }
 
-  changeQuantity(event: Event): void {
+  changeQuantity(event: any) {
     const inputElement = event.target as HTMLInputElement;
-    this.customerForm.get('quantity')?.setValue(inputElement.value);
-    console.log('customerForm', this.customerForm.value.quantity);
+    const sanitizedQuantity = inputElement.value.replace(/[^0-9]/g, '');
+  
+    // Only allow numeric values, update the input value to the sanitized quantity
+    if (inputElement.value !== sanitizedQuantity) {
+      inputElement.value = sanitizedQuantity;
+      this.customerForm.patchValue({ quantity: sanitizedQuantity });
+    }
+  
+    // Recalculate the total if the input is valid
+    if (sanitizedQuantity) {
+      this.calculateTotal();
+    }
+  }
+  // changeQuantity(event: any) {
+  //   let quantity = this.customerForm.get('quantity')?.value;
+  //   console.log('quantity', quantity);
+
+  //   const inputElement = event.target as HTMLInputElement;
+  //   // this.customerForm.patchValue({
+  //   //   quantity: inputElement.value,
+  //   // });
+  //   let checkRegex = /[0-9]+/.test(inputElement.value);
+  //   let charCode = event.keyCode;
+  //   // console.log(charCode);
+  //   if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+  //     return false;
+  //   } else {
+  //     console.log('else');
+  //     this.calculateTotal();
+  //     return true;
+  //   }
+  // }
+  // ^[0-9]*$
+  calculateTotal() {
+    // debugger;
+    let price = this.customerForm.get('price')?.value;
+    let quantity = this.customerForm.get('quantity')?.value;
+    let total = String((Number(price) * Number(quantity)).toFixed(2));
+    this.customerForm.patchValue({
+      total: total,
+    });
   }
 }

@@ -93,41 +93,35 @@
                         Price databank Error
                     </mat-error>
                 </mat-form-field>
-                <!-- <mat-form-field>
-                    <mat-label>Price</mat-label>
-                    <input type="text" matInput formControlName="price" readonly [value]="selectedProductPrice">
-                    @if (customerForm.hasError('price') && !customerForm.hasError('required')) {
-                    <mat-error>Price databank Error</mat-error>
-                    }
-                </mat-form-field> -->
 
                 <mat-form-field>
                     <mat-label>Quantity</mat-label>
-                    <input type="number" matInput formControlName="quantity" (input)="changeQuantity($event)">
+                    <input
+                      type="text"
+                      matInput
+                      formControlName="quantity"
+                      (input)="changeQuantity($event)"
+                    />
+                    <mat-error
+                      *ngIf="customerForm.get('quantity')?.hasError('quantity') && !customerForm.get('quantity')?.hasError('required')">
+                      Quantity is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>                  
+                <!-- <mat-form-field>
+                    <mat-label>Quantity</mat-label>
+                    <input type="text" matInput formControlName="quantity" (keypress)="changeQuantity($event)">
                     <mat-error
                         *ngIf="customerForm.get('quantity')?.hasError('quantity') && !customerForm.get('quantity')?.hasError('required')">
                         Quantity is <strong>required</strong></mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <mat-form-field>
                     <mat-label>Total</mat-label>
-                    <input type="text" matInput formControlName="price" readonly>
-                    @if (customerForm.hasError('total') && !customerForm.hasError('required')) {
-                    <mat-error>Total databank Error</mat-error>
-                    }
+                    <input type="text" matInput formControlName="total" readonly>
+                    <mat-error
+                        *ngIf="customerForm.get('total')?.hasError('total') && !customerForm.get('total')?.hasError('required')">
+                        Total databank Error</mat-error>
                 </mat-form-field>
-
-                <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Total</mat-label>
-                    <input type="number" matInput formControlName="total" placeholder="0">
-                    @if (customerForm.get('total')?.hasError('total') &&
-                    !customerForm.get('total')?.hasError('required')) {
-                    <mat-error>Please enter a valid Total</mat-error>
-                    }
-                    @if (customerForm.get('total')?.hasError('required')) {
-                    <mat-error>Total is <strong>required</strong></mat-error>
-                    }
-                </mat-form-field> -->
 
             </form>
             <button mat-flat-button color="warn">add</button>
