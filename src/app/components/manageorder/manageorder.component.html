@@ -87,18 +87,26 @@
 
                 <mat-form-field>
                     <mat-label>Price</mat-label>
+                    <input type="text" matInput formControlName="price" readonly>
+                    <mat-error
+                        *ngIf="customerForm.get('price')?.hasError('price') && !customerForm.get('price')?.hasError('required')">
+                        Price databank Error
+                    </mat-error>
+                </mat-form-field>
+                <!-- <mat-form-field>
+                    <mat-label>Price</mat-label>
                     <input type="text" matInput formControlName="price" readonly [value]="selectedProductPrice">
                     @if (customerForm.hasError('price') && !customerForm.hasError('required')) {
                     <mat-error>Price databank Error</mat-error>
                     }
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <mat-form-field>
                     <mat-label>Quantity</mat-label>
-                    <input type="number" matInput formControlName="quantity" [value]="selectedProductQuantity">
-                    @if (customerForm.hasError('quantity') && !customerForm.hasError('required')) {
-                    <mat-error>Quanity is <strong>required</strong></mat-error>
-                    }
+                    <input type="number" matInput formControlName="quantity" (input)="changeQuantity($event)">
+                    <mat-error
+                        *ngIf="customerForm.get('quantity')?.hasError('quantity') && !customerForm.get('quantity')?.hasError('required')">
+                        Quantity is <strong>required</strong></mat-error>
                 </mat-form-field>
 
                 <mat-form-field>
@@ -109,9 +117,9 @@
                     }
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
+                <!-- <mat-form-field class="example-full-width">
                     <mat-label>Total</mat-label>
-                    <input type="number" matInput formControlName="total" placeholder="0" >
+                    <input type="number" matInput formControlName="total" placeholder="0">
                     @if (customerForm.get('total')?.hasError('total') &&
                     !customerForm.get('total')?.hasError('required')) {
                     <mat-error>Please enter a valid Total</mat-error>
@@ -119,7 +127,7 @@
                     @if (customerForm.get('total')?.hasError('required')) {
                     <mat-error>Total is <strong>required</strong></mat-error>
                     }
-                </mat-form-field>
+                </mat-form-field> -->
 
             </form>
             <button mat-flat-button color="warn">add</button>

@@ -15,9 +15,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { DashboardService } from '../../services/dashboard.service';
-import { MatSelectChange } from '@angular/material/select';
+// import { MatSelectChange } from '@angular/material/select';
 import { OrderService } from '../../services/order.service';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-manageorder',
   standalone: true,
@@ -34,6 +34,7 @@ import { OrderService } from '../../services/order.service';
     ReactiveFormsModule,
     MatSelectModule,
     MatTableModule,
+    CommonModule,
   ],
   templateUrl: './manageorder.component.html',
   styleUrl: './manageorder.component.scss',
@@ -67,9 +68,6 @@ export class ManageorderComponent implements OnInit {
     'Delete',
   ];
 
-  selectedProductPrice: any;
-  selectedProductQuantity!: number;
-
   ngOnInit(): void {
     this.loadCategorys();
   }
@@ -89,6 +87,8 @@ export class ManageorderComponent implements OnInit {
       .subscribe((data: any) => {
         this.productData = data;
       });
+    this.customerForm.get('price')?.setValue('');
+    this.customerForm.get('quantity')?.setValue('');
     // this.dashboardService.viewProduct().subscribe((data: any) => {
     //   this.productData = data.filter((product: any) => {
     //     return product.categoryID.includes(value.value._id);
@@ -97,12 +97,13 @@ export class ManageorderComponent implements OnInit {
   }
 
   loadProductPriceQuantity(event: any) {
-    this.selectedProductPrice = event.value.price;
-    this.selectedProductQuantity = 1;
+    this.customerForm.get('price')?.setValue(event.value.price);
+    this.customerForm.get('quantity')?.setValue('1');
   }
 
-  // emailFormControl = new FormControl('', [
-  //   Validators.required,
-  //   Validators.email,
-  // ]);
+  changeQuantity(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.customerForm.get('quantity')?.setValue(inputElement.value);
+    console.log('customerForm', this.customerForm.value.quantity);
+  }
 }
