@@ -12,7 +12,54 @@
         <mat-card-content class="customer-details-top">
             <mat-card-title>Customer-Details</mat-card-title>
             <form class="example-form" [formGroup]="customerForm">
+
                 <mat-form-field class="example-full-width">
+                    <mat-label>Name</mat-label>
+                    <input type="text" matInput formControlName="name" [matAutocomplete]="autoName" placeholder="Name">
+                    <mat-autocomplete #autoName="matAutocomplete"
+                        (optionSelected)="onUserSelected($event.option.value)">
+                        <mat-option *ngFor="let user of filteredUserData" [value]="user.name">
+                            {{ user.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="customerForm.get('name')?.hasError('required')">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Email Field -->
+                <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput formControlName="email" [matAutocomplete]="autoEmail"
+                        placeholder="Ex. pat@example.com">
+                    <mat-autocomplete #autoEmail="matAutocomplete"
+                        (optionSelected)="onUserSelected($event.option.value)">
+                        <mat-option *ngFor="let user of filteredUserData" [value]="user.email">
+                            {{ user.email }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="customerForm.get('email')?.hasError('required')">
+                        Email is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Contact Number Field -->
+                <mat-form-field class="example-full-width">
+                    <mat-label>Contact Number</mat-label>
+                    <input type="text" matInput formControlName="contactNumber" [matAutocomplete]="autoContactNumber"
+                        placeholder="Contact Number">
+                    <mat-autocomplete #autoContactNumber="matAutocomplete"
+                        (optionSelected)="onUserSelected($event.option.value)">
+                        <mat-option *ngFor="let user of filteredUserData" [value]="user.contactNumber">
+                            {{ user.contactNumber }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="customerForm.get('contactNumber')?.hasError('required')">
+                        Contact Number is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- <mat-form-field class="example-full-width">
                     <mat-label>Name</mat-label>
                     <input type="text" matInput formControlName="name" placeholder="Name">
                     @if (customerForm.get('name')?.hasError('name') && !customerForm.get('name')?.hasError('required'))
@@ -46,7 +93,7 @@
                     @if (customerForm.get('contactNumber')?.hasError('required')) {
                     <mat-error>Contact Number is <strong>required</strong></mat-error>
                     }
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <mat-form-field>
                     <mat-label>Payment Method</mat-label>
@@ -58,6 +105,7 @@
                     <mat-error>Please select a PaymentMethod</mat-error>
                     }
                 </mat-form-field>
+
             </form>
         </mat-card-content>
     </mat-card>
@@ -96,17 +144,12 @@
 
                 <mat-form-field>
                     <mat-label>Quantity</mat-label>
-                    <input
-                      type="text"
-                      matInput
-                      formControlName="quantity"
-                      (input)="changeQuantity($event)"
-                    />
+                    <input type="text" matInput formControlName="quantity" (input)="changeQuantity($event)" />
                     <mat-error
-                      *ngIf="customerForm.get('quantity')?.hasError('quantity') && !customerForm.get('quantity')?.hasError('required')">
-                      Quantity is <strong>required</strong>
+                        *ngIf="customerForm.get('quantity')?.hasError('quantity') && !customerForm.get('quantity')?.hasError('required')">
+                        Quantity is <strong>required</strong>
                     </mat-error>
-                  </mat-form-field>                  
+                </mat-form-field>
                 <!-- <mat-form-field>
                     <mat-label>Quantity</mat-label>
                     <input type="text" matInput formControlName="quantity" (keypress)="changeQuantity($event)">
