@@ -202,8 +202,6 @@ export class ManageorderComponent implements OnInit {
     this.customerForm.patchValue({
       total: total,
     });
-    this.totalPrice += Number(total);
-    console.log('totalPrice', this.totalPrice);
   }
 
   addProductToList() {
@@ -240,17 +238,20 @@ export class ManageorderComponent implements OnInit {
   //         }
   //     ]
   // }
-  submitBill() {
+
+  async submitBill() {
+    this.listData.data.map((item: any) => {
+      this.totalPrice += Number(item.subTotal);
+    });
     const formData = this.customerForm.value;
     const billData = {
       name: formData?.name,
       email: formData?.email,
       contactNumber: formData?.contactNumber,
       paymentMethod: formData?.paymentMethod,
-      total: String(this.totalPrice.toFixed(2)),
+      total: this.totalPrice.toFixed(2),
       productDetails: this.listData.data,
     };
-
     this.orderService
       .createBill(billData)
       .pipe(

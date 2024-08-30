@@ -49,28 +49,28 @@ export class NavbarComponent implements OnInit {
   login() {
     const dialogRef = this.dialog.open(LogindialogComponent, {});
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
 
   signup() {
     const dialogRef = this.dialog.open(SignupComponent, {});
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
 
   forgotPassword() {
     const dialogRef = this.dialog.open(ForgotpasswordComponent, {});
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
 
   changePasswordDialog() {
     const dialogRef = this.dialog.open(ChangepasswordComponent, {});
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
 }
