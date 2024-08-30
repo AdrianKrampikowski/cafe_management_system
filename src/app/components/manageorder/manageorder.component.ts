@@ -13,14 +13,21 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DashboardService } from '../../services/dashboard.service';
 // import { MatSelectChange } from '@angular/material/select';
 import { OrderService } from '../../services/order.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  tap,
+} from 'rxjs/operators';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SnackbarService } from '../../services/snackbar.service';
+import { of } from 'rxjs';
 @Component({
   selector: 'app-manageorder',
   standalone: true,
@@ -48,7 +55,8 @@ export class ManageorderComponent implements OnInit {
     public fb: FormBuilder,
     private dashboardService: DashboardService,
     private orderService: OrderService,
-    private userService: UserService
+    private userService: UserService,
+    private snackbarService: SnackbarService
   ) {}
 
   customerForm = this.fb.group({
@@ -76,6 +84,8 @@ export class ManageorderComponent implements OnInit {
   categoryData: any;
   productData: any;
   filteredUserData: any[] = [];
+  listData: any = new MatTableDataSource<any>();
+  totalPrice: number = 0;
 
   ngOnInit(): void {
     this.loadUser();
@@ -87,7 +97,6 @@ export class ManageorderComponent implements OnInit {
   loadUser() {
     this.userService.loadAllUser().subscribe((data: any) => {
       this.userData = data;
-      console.log('userData', this.userData);
     });
   }
 
@@ -119,8 +128,6 @@ export class ManageorderComponent implements OnInit {
         (!email || user.email.toLowerCase().includes(email.toLowerCase())) &&
         (!contactNumber || user.contactNumber.includes(contactNumber))
     );
-
-    console.log('filteredUserData', this.filteredUserData);
   }
 
   onUserSelected(selectedValue: string) {
@@ -136,7 +143,6 @@ export class ManageorderComponent implements OnInit {
         name: selectedUser.name,
         email: selectedUser.email,
         contactNumber: selectedUser.contactNumber,
-        // You can also auto-fill other fields if necessary
       });
     }
   }
@@ -196,5 +202,73 @@ export class ManageorderComponent implements OnInit {
     this.customerForm.patchValue({
       total: total,
     });
+    this.totalPrice += Number(total);
+    console.log('totalPrice', this.totalPrice);
+  }
+
+  addProductToList() {
+    let data: any = this.customerForm.value;
+    const newObject = {
+      productName: data.product?.name,
+      category: data.category?.name,
+      price: data.product?.price,
+      quantity: data?.quantity,
+      subTotal: data?.total,
+    };
+    this.listData.data = [...this.listData.data, newObject];
+  }
+
+  deleteListElement(index: any) {
+    this.listData.data.splice(index, 1);
+    this.listData.data = [...this.listData.data];
+  }
+
+  //   {
+  //     "name": "John Doe2",
+  //     "uuid": "123e4567-e89b-12d3-a456-426614174000",
+  //     "email": "johndoe@example.com",
+  //     "contactNumber": "1234567890",
+  //     "paymentMethod": "Credit Card",
+  //     "total": 100.50,
+  //     "productDetails": [
+  //         {
+  //             "productName": "Sample Product",
+  //             "category": "food",
+  //             "quantity": 2,
+  //             "price": 50.25,
+  //             "subTotal": 1000
+  //         }
+  //     ]
+  // }
+  submitBill() {
+    const formData = this.customerForm.value;
+    const billData = {
+      name: formData?.name,
+      email: formData?.email,
+      contactNumber: formData?.contactNumber,
+      paymentMethod: formData?.paymentMethod,
+      total: String(this.totalPrice.toFixed(2)),
+      productDetails: this.listData.data,
+    };
+
+    this.orderService
+      .createBill(billData)
+      .pipe(
+        tap((data: any) => {
+          if (data) {
+            this.snackbarService.openSnackbar('Bill created', '');
+            this.listData.data = [];
+            this.totalPrice = 0;
+            this.customerForm.reset();
+          } else {
+            this.snackbarService.openSnackbar('Bill created', 'error');
+          }
+        }),
+        catchError((error: any) => {
+          this.snackbarService.openSnackbar(error.message, 'error');
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 }

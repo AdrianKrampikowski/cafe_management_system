@@ -69,15 +69,23 @@
         <table class="customer-info">
             <tr>
                 <td class="label">Name:</td>
-                <td><%= name %></td>
+                <td>
+                    <%= name %>
+                </td>
                 <td class="label">Email:</td>
-                <td><%= email %></td>
+                <td>
+                    <%= email %>
+                </td>
             </tr>
             <tr>
                 <td class="label">Contact Number:</td>
-                <td><%= contactNumber %></td>
+                <td>
+                    <%= contactNumber %>
+                </td>
                 <td class="label">Payment Method:</td>
-                <td><%= paymentMethod %></td>
+                <td>
+                    <%= paymentMethod %>
+                </td>
             </tr>
         </table>
 
@@ -92,13 +100,23 @@
             </tr>
             <% products.forEach(function(product) { %>
                 <tr>
-                    <td><%= product.productName %></td>
-                    <td><%= product.category %></td>
-                    <td><%= product.quantity %></td>
-                    <td><%= product.price %></td>
-                    <td><%= product.subTotal %></td>
+                    <td>
+                        <%= product.productName %>
+                    </td>
+                    <td>
+                        <%= product.category %>
+                    </td>
+                    <td>
+                        <%= product.quantity %>
+                    </td>
+                    <td>
+                        <%= product.price %>
+                    </td>
+                    <td>
+                        <%= product.subTotal%>
+                    </td>
                 </tr>
-            <% }); %>
+                <% }); %>
         </table>
 
         <div class="total">

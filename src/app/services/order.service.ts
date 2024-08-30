@@ -19,9 +19,14 @@ export class OrderService {
       this.apiUrl + '/product/getProductByCategory',
       data,
       this.authService.getHeaders()
-      //   {
-      //   headers: { Authorization: `Bearer ${this.encodedToken}` },
-      // }
+    );
+  }
+
+  createBill(data: any) {    
+    return this.httpclient.post(
+      this.apiUrl + '/bill/createBill',
+      data,
+      this.authService.getHeaders()
     );
   }
 }
