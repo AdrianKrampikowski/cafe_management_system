@@ -6,7 +6,6 @@ const uuid = require("uuid");
 const fs = require('fs');
 
 const createBill = async (req, resp) => {
-    console.log('req', req.body);
 
     const generateuuid = uuid.v1();
     const orderDetails = req.body;
@@ -54,13 +53,12 @@ const getpdf = async (req, resp) => {
         const pdfPath = "./generated_pdf/" + orderDetails.uuid + '.pdf';
         if (fs.existsSync(pdfPath)) {
             resp.contentType("application/pdf");
-            fs.createReadStream(pdfPath).pipe(resp);
+            return fs.createReadStream(pdfPath).pipe(resp);
         } else {
             let productDetailReport = orderDetails.productDetails;
-
             const filePath = path.join(__dirname, "report.ejs");
             ejs.renderFile(filePath, {
-                products: [productDetailReport],
+                products: productDetailReport,
                 name: orderDetails.name,
                 email: orderDetails.email,
                 contactNumber: orderDetails.contactNumber,

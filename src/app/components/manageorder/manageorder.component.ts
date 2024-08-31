@@ -244,7 +244,7 @@ export class ManageorderComponent implements OnInit {
       this.totalPrice += Number(item.subTotal);
     });
     const formData = this.customerForm.value;
-    const billData = {
+    const billData: any = {
       name: formData?.name,
       email: formData?.email,
       contactNumber: formData?.contactNumber,
@@ -258,6 +258,8 @@ export class ManageorderComponent implements OnInit {
         tap((data: any) => {
           if (data) {
             this.snackbarService.openSnackbar('Bill created', '');
+            billData.uuid = data.uuid;
+            this.getpdf(billData);
             this.listData.data = [];
             this.totalPrice = 0;
             this.customerForm.reset();
@@ -271,5 +273,35 @@ export class ManageorderComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  getpdf(data: any) {
+    this.orderService
+      .getpdfBill(data)
+      .pipe(
+        catchError((err: any) => {
+          this.snackbarService.openSnackbar(err.message, 'error');
+          return of(null); // Return null in case of error
+        })
+      )
+      .subscribe(
+        (blob: Blob | null) => {
+          if (blob) {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${data.uuid}.pdf`; // Assuming `data` contains the `uuid`
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+          } else {
+            console.error('Failed to download PDF: No blob data received');
+          }
+        },
+        (error) => {
+          console.error('Error downloading the PDF', error);
+        }
+      );
   }
 }

@@ -14,7 +14,7 @@ export class OrderService {
 
   apiUrl = enviroment.apiUrl;
 
-  loadProductByCategory(data: any) {    
+  loadProductByCategory(data: any) {
     return this.httpclient.post(
       this.apiUrl + '/product/getProductByCategory',
       data,
@@ -22,11 +22,19 @@ export class OrderService {
     );
   }
 
-  createBill(data: any) {    
+  createBill(data: any) {
     return this.httpclient.post(
       this.apiUrl + '/bill/createBill',
       data,
       this.authService.getHeaders()
     );
+  }
+
+  getpdfBill(data: any) {
+    const headers = this.authService.getHeaders();
+    return this.httpclient.post(this.apiUrl + '/bill/getpdf', data, {
+      ...headers,
+      responseType: 'blob', // Ensure responseType is set correctly
+    });
   }
 }
