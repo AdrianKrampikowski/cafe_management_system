@@ -21,8 +21,6 @@ export class BillService {
   }
 
   deleteBill(id: any) {
-console.log(id);
-
     return this.httpclient.delete(
       this.apiUrl + '/bill/deleteBill/' + id,
       this.authService.getHeaders()
