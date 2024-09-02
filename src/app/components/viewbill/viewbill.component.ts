@@ -18,6 +18,8 @@ import { ViewbilldialogComponent } from '../viewbilldialog/viewbilldialog.compon
 import { BillService } from '../../services/bill.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { DeletebilldialogComponent } from '../../deletebilldialog/deletebilldialog.component';
+import { catchError, of, tap } from 'rxjs';
+import { SnackbarService } from '../../services/snackbar.service';
 @Component({
   selector: 'app-viewbill',
   standalone: true,
@@ -36,7 +38,11 @@ import { DeletebilldialogComponent } from '../../deletebilldialog/deletebilldial
 })
 export class ViewbillComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  constructor(public dialog: MatDialog, private billService: BillService) {}
+  constructor(
+    public dialog: MatDialog,
+    private billService: BillService,
+    private snackbarService: SnackbarService
+  ) {}
   ngAfterViewInit() {
     this.billData.paginator = this.paginator;
   }
@@ -58,10 +64,25 @@ export class ViewbillComponent implements OnInit {
   ];
 
   loadBills(): void {
-    this.billService.loadBills().subscribe((bills: any) => {
-      this.billData.data = bills;
-      this.datalength = bills.length;
-    });
+    this.billService
+      .loadBills()
+      .pipe(
+        tap((data: any) => {
+          if (data) {
+            this.snackbarService.openSnackbar('Bills loaded', '');
+          } else {
+            this.snackbarService.openSnackbar('No Bills found', 'Error');
+          }
+        }),
+        catchError((err: any) => {
+          this.snackbarService.openSnackbar(err.message, 'Error');
+          return of(null);
+        })
+      )
+      .subscribe((bills: any) => {
+        this.billData.data = bills;
+        this.datalength = bills.length;
+      });
   }
 
   openViewBillDialog(element: any): void {
@@ -72,9 +93,33 @@ export class ViewbillComponent implements OnInit {
   }
 
   getpdf(bill: any) {
-    this.billService.getpdf(bill).subscribe((result: any) => {
-      console.log('result', result);
-    });
+    this.billService
+      .getpdf(bill)
+      .pipe(
+        catchError((err: any) => {
+          this.snackbarService.openSnackbar(err.message, 'error');
+          return of(null); // Return null in case of error
+        })
+      )
+      .subscribe(
+        (blob: Blob | null) => {
+          if (blob) {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${bill.uuid}.pdf`; // Assuming `data` contains the `uuid`
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+          } else {
+            console.error('Failed to download PDF: No blob data received');
+          }
+        },
+        (error) => {
+          console.error('Error downloading the PDF', error);
+        }
+      );
   }
 
   openDeleteBill(bill: any, index: any) {

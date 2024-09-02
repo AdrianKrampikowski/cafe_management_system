@@ -5,10 +5,10 @@ const billSchema = new mongoose.Schema({
         type: String,
         required: [true, "Name is required"]
     },
-    // uuid: {
-    //     type: String,
-    //     required: [true, "Uuid is required"]
-    // },
+    uuid: {
+        type: String,
+        // required: [true, "Uuid is required"]
+    },
     email: {
         type: String,
         required: [true, "Email is required"]

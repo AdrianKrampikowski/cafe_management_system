@@ -21,11 +21,11 @@ export class BillService {
   }
 
   getpdf(data: any) {
-    return this.httpclient.post(
-      this.apiUrl + '/bill/getpdf',
-      data,
-      this.authService.getHeaders()
-    );
+    const headers = this.authService.getHeaders();
+    return this.httpclient.post(this.apiUrl + '/bill/getpdf', data, {
+      ...headers,
+      responseType: 'blob', // Ensure responseType is set correctly
+    });
   }
 
   deleteBill(id: any) {

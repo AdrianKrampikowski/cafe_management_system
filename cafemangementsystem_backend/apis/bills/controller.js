@@ -8,11 +8,10 @@ const fs = require('fs');
 const createBill = async (req, resp) => {
 
     const generateuuid = uuid.v1();
-    const orderDetails = req.body;
-
+    let orderDetails = req.body;
+    orderDetails.uuid = generateuuid;
     // No need to parse productDetails, since it is already an object
     let productDetailReport = orderDetails.productDetails;
-
     try {
         const bill = new Bill(req.body);
         await bill.save();
@@ -28,7 +27,8 @@ const createBill = async (req, resp) => {
             email: orderDetails.email,
             contactNumber: orderDetails.contactNumber,
             paymentMethod: orderDetails.paymentMethod,
-            total: orderDetails.total
+            total: orderDetails.total,
+            uuid: generateuuid
         }, (err, result) => {
             if (err) {
                 return resp.status(400).json({ message: err });
@@ -48,7 +48,7 @@ const createBill = async (req, resp) => {
 };
 
 const getpdf = async (req, resp) => {
-    try {   
+    try {
         const orderDetails = req.body;
         console.log('orderDetails.uuid', orderDetails.uuid);
         const pdfPath = "./generated_pdf/" + orderDetails.uuid + '.pdf';
@@ -89,7 +89,8 @@ const getBills = async (req, resp) => {
     try {
         const bill = await Bill.find();
         if (bill.length < 1) {
-            resp.status(404).json({ message: "No Bill found" });
+            // resp.status(404).json({ message: "No Bill found" });
+            resp.status(200).json({ message: "New Costumer with no Bills" });
         } else {
             resp.status(200).json(bill);
         }
