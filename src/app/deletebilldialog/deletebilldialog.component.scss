@@ -5,7 +5,15 @@
 :host ::ng-deep mat-card-header {
   background-color: darkorange;
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+:host ::ng-deep mat-card-title {
+  text-align: center;
+}
+
 
 .button-container {
   display: flex;

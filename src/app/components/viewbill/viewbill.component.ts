@@ -72,16 +72,16 @@ export class ViewbillComponent implements OnInit {
   }
 
   viewDeleteBill(bill: any, index: any) {
-    this.dialog.open(DeletebilldialogComponent, {
+    let dialogRef = this.dialog.open(DeletebilldialogComponent, {
       width: '500px',
       data: {
         bill,
         index,
       },
     });
-    // this.billService.deleteBill(bill._id).subscribe((result: any) => {
-    //   this.billData.data.splice(index, 1);
-    //   this.billData.data = [...this.billData.data];
-    // });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadBills();
+    });
   }
 }

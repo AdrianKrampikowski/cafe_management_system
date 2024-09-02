@@ -7,8 +7,8 @@
     <mat-card-content>
         <h2>Are you sure to delete this Bill?</h2>
         <div class="button-container">
-            <button mat-stroked-button color="warn">No</button>
-            <button mat-flat-button color="warn">Yes</button>
+            <button mat-stroked-button color="warn" (click)="closeDialog()">No</button>
+            <button mat-flat-button color="warn" (click)="deleteBill()">Yes</button>
         </div>
     </mat-card-content>
 </mat-card>
