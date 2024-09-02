@@ -41,7 +41,7 @@ const getAllProducts = async (req, resp) => {
 
 const getProductByCategory = async (req, resp) => {
     try {
-        let product = await Product.find(req.body);
+        let product = await Product.find(req.body).where("status").equals(true).exec();
         if (product.length < 1) {
             resp.status(404).json({ message: "No Product with this CategoryID exist" });
         } else {
@@ -55,6 +55,8 @@ const getProductByCategory = async (req, resp) => {
 const getProductByID = async (req, resp) => {
     try {
         let product = await Product.find(req.params);
+        console.log('product', product);
+
         if (product.length < 1) {
             resp.status(404).json({ message: "Product with this ID doesnt exist" });
         } else {

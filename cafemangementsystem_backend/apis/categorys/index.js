@@ -6,6 +6,7 @@ const role = require("../../middlewares/checkrole");
 
 router.route("/createCategory").post(auth, role, controller.createCategory);
 router.route("/getCategory").get(auth, controller.getCategory);
+router.route("/getActiveCategory").get(auth, controller.getActiveCategory);
 router.route("/updateCategory").patch(auth, role, controller.updateCategory);
 router.route("/deleteCategory/:categoryID").delete(auth, role, controller.deleteCategory);
 

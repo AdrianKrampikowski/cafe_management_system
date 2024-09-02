@@ -30,6 +30,19 @@ const getCategory = async (req, resp) => {
     }
 }
 
+const getActiveCategory = async (req, resp) => {
+    try {
+        const category = await Category.where("status").equals(true).exec();
+        if (category.length < 1) {
+            resp.status(404).json({ message: "No active category found" });
+        } else {
+            resp.status(200).json(category);
+        }
+    } catch (error) {
+        resp.status(400).json({ message: error.message });
+    }
+}
+
 const updateCategory = async (req, resp) => {
     const { _id, name, status } = req.body;
     try {
@@ -62,4 +75,4 @@ const deleteCategory = async (req, resp) => {
     }
 }
 
-module.exports = { createCategory, getCategory, updateCategory, deleteCategory }
+module.exports = { createCategory, getCategory, getActiveCategory, updateCategory, deleteCategory }

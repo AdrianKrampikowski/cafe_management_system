@@ -28,7 +28,7 @@ export class DashboardService {
     return this.httpclient.get(this.apiUrl + '/dashboard/getDetails');
   }
 
-  addCategory(data: any) {    
+  addCategory(data: any) {
     return this.httpclient.post(
       this.apiUrl + '/category/createCategory',
       data,
@@ -42,6 +42,13 @@ export class DashboardService {
   viewCategory() {
     return this.httpclient.get(
       this.apiUrl + '/category/getCategory',
+      this.authService.getHeaders()
+    );
+  }
+
+  viewActiveCategory() {
+    return this.httpclient.get(
+      this.apiUrl + '/category/getActiveCategory',
       this.authService.getHeaders()
     );
   }

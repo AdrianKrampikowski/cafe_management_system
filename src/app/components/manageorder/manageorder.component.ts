@@ -148,7 +148,7 @@ export class ManageorderComponent implements OnInit {
   }
 
   loadCategorys() {
-    this.dashboardService.viewCategory().subscribe((data: any) => {
+    this.dashboardService.viewActiveCategory().subscribe((data: any) => {
       this.categoryData = data;
     });
   }
