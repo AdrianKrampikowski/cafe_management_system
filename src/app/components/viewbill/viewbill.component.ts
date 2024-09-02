@@ -71,6 +71,12 @@ export class ViewbillComponent implements OnInit {
     });
   }
 
+  getpdf(bill: any) {
+    this.billService.getpdf(bill).subscribe((result: any) => {
+      console.log('result', result);
+    });
+  }
+
   openDeleteBill(bill: any, index: any) {
     let dialogRef = this.dialog.open(DeletebilldialogComponent, {
       width: '500px',

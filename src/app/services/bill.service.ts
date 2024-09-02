@@ -20,6 +20,14 @@ export class BillService {
     );
   }
 
+  getpdf(data: any) {
+    return this.httpclient.post(
+      this.apiUrl + '/bill/getpdf',
+      data,
+      this.authService.getHeaders()
+    );
+  }
+
   deleteBill(id: any) {
     return this.httpclient.delete(
       this.apiUrl + '/bill/deleteBill/' + id,

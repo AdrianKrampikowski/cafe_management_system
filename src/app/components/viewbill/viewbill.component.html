@@ -45,14 +45,14 @@
                 <th mat-header-cell *matHeaderCellDef> Action </th>
                 <td mat-cell *matCellDef="let element, let i = index">
                     <div class="buttons">
-                        <button mat-icon-button aria-label="Example icon button with an eye icon"
-                            (click)="openViewBillDialog(element)">
+                        <button mat-icon-button (click)="openViewBillDialog(element)">
                             <mat-icon>visibility</mat-icon>
                         </button>
-                        <button mat-icon-button aria-label="Example icon button with a document icon">
+                        <button mat-icon-button (click)="getpdf(element)">
                             <mat-icon>description</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="openDeleteBill(element, (paginator.pageIndex * paginator.pageSize) + i)">
+                        <button mat-icon-button
+                            (click)="openDeleteBill(element, (paginator.pageIndex * paginator.pageSize) + i)">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </div>

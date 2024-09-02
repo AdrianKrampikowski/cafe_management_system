@@ -48,8 +48,9 @@ const createBill = async (req, resp) => {
 };
 
 const getpdf = async (req, resp) => {
-    try {
+    try {   
         const orderDetails = req.body;
+        console.log('orderDetails.uuid', orderDetails.uuid);
         const pdfPath = "./generated_pdf/" + orderDetails.uuid + '.pdf';
         if (fs.existsSync(pdfPath)) {
             resp.contentType("application/pdf");
