@@ -43,6 +43,25 @@ const getActiveCategory = async (req, resp) => {
     }
 }
 
+const getFilteredCategory = async (req, resp) => {
+    const { data } = req.body;
+    try {
+        let category = await Category.find({
+            "$or": [{
+                name: { $regex: data, $options: 'i' } // case-insensitive regex
+            }]
+        })
+        console.log('category', category);
+        if (category.length < 1) {
+            resp.status(404).json({ message: "No matching category found" });
+        } else {
+            resp.status(200).json(category);
+        }
+    } catch (error) {
+        resp.status(400).json({ message: error.message });
+    }
+}
+
 const updateCategory = async (req, resp) => {
     const { _id, name, status } = req.body;
     try {
@@ -75,4 +94,4 @@ const deleteCategory = async (req, resp) => {
     }
 }
 
-module.exports = { createCategory, getCategory, getActiveCategory, updateCategory, deleteCategory }
+module.exports = { createCategory, getCategory, getActiveCategory, getFilteredCategory, updateCategory, deleteCategory }

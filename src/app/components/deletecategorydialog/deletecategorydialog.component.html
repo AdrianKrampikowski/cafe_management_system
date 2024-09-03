@@ -1,0 +1,14 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            Delete Bill
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <h2>Are you sure to delete this Bill?</h2>
+        <div class="button-container">
+            <button mat-stroked-button color="warn" (click)="closeDialog()">No</button>
+            <button mat-flat-button color="warn" (click)="deleteCategory()">Yes</button>
+        </div>
+    </mat-card-content>
+</mat-card>

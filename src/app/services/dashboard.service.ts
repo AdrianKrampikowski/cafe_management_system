@@ -52,6 +52,14 @@ export class DashboardService {
       this.authService.getHeaders()
     );
   }
+
+  viewFilteredCategory(data: any) {
+    return this.httpclient.post(
+      this.apiUrl + '/category/getFilteredCategory',
+      { data: data },
+      this.authService.getHeaders()
+    );
+  }
   // viewCategory() {
   //   return this.httpclient.get(this.apiUrl + '/category/getCategory', {
   //     // headers: this.authService.setHeader(),

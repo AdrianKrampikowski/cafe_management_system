@@ -18,6 +18,8 @@ import { AddcategoryComponent } from '../addcategory/addcategory.component';
 import { SnackbarService } from '../../services/snackbar.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DeletecategorydialogComponent } from '../deletecategorydialog/deletecategorydialog.component';
 
 @Component({
   selector: 'app-managecategory',
@@ -54,9 +56,9 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadAllCategorys();
-    this.productData.filterPredicate = (data: any, filter: string): boolean => {
-      return data.name.toLowerCase().includes(filter);
-    };
+    // this.productData.filterPredicate = (data: any, filter: string): boolean => {
+    //   return data.name.toLowerCase().includes(filter);
+    // };
   }
 
   addCategory() {
@@ -86,14 +88,19 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-      .trim()
-      .toLowerCase();
-    this.productData.filter = filterValue;
+    const filterValue = (event.target as HTMLInputElement).value.trim();
+    // .toLowerCase();
+    this.dashboardService
+      .viewFilteredCategory(filterValue)
+      .subscribe((result: any) => {
+        this.productData.data = result;
+        this.datalength = result.length;
+      });
 
-    if (this.productData.paginator) {
-      this.productData.paginator.firstPage();
-    }
+    // this.productData.filter = filterValue;
+    // if (this.productData.paginator) {
+    //   this.productData.paginator.firstPage();
+    // }
   }
 
   clearFilter() {
@@ -104,14 +111,20 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
     }
   }
 
-  deleteCategory(categoryId: any) {
-    this.dashboardService
-      .deleteCategory(categoryId)
-      .subscribe((result: any) => {
-        if (result) {
-          this.snackbarService.openSnackbar(result.message, '');
-          this.loadAllCategorys();
-        }
-      });
+  openDeleteCategoryDialog(id: any) {
+    const dialogRef = this.dialog.open(DeletecategorydialogComponent, {
+      data: {
+        id: id,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result != 'false') {
+        this.snackbarService.openSnackbar(result.message, '');
+        this.loadAllCategorys();
+      } else {
+        this.snackbarService.openSnackbar('deleting canceled', '');
+      }
+    });
   }
 }

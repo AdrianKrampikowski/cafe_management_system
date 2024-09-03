@@ -57,7 +57,6 @@ export class EditcategoryComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    console.log('this.data', this.data);
     this.categoryData = { ...this.data };
     this.editCategoryForm.patchValue({
       _id: this.categoryData._id,

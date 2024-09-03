@@ -68,7 +68,7 @@ export class ViewbillComponent implements OnInit {
       .loadBills()
       .pipe(
         tap((data: any) => {
-          if (data) {
+          if (data.length > 0) {
             this.snackbarService.openSnackbar('Bills loaded', '');
           } else {
             this.snackbarService.openSnackbar('No Bills found', 'Error');
