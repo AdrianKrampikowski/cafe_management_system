@@ -57,9 +57,6 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
     this.productData.filterPredicate = (data: any, filter: string): boolean => {
       return data.name.toLowerCase().includes(filter);
     };
-    setTimeout(() => {
-      console.log(this.productData);
-    }, 1000);
   }
 
   addCategory() {

@@ -7,12 +7,12 @@
 
     <mat-card-content>
 
-        <form class="form" [formGroup]="categoryForm">
+        <form class="form" [formGroup]="editCategoryForm">
             <div class="form-field">
                 <mat-form-field>
                     <mat-label>Name</mat-label>
                     <input type="text" matInput formControlName="name">
-                    @if (categoryForm.hasError('required')) {
+                    @if (editCategoryForm.hasError('required')) {
                     <mat-error>Name is <strong>required</strong></mat-error>
                     }
                 </mat-form-field>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="buttons">
-                <button mat-stroked-button color="warn">Cancel</button>
+                <button mat-stroked-button color="warn" (click)="closeDialog()">Cancel</button>
                 <button mat-flat-button color="warn" (click)="updateCategory()">Save</button>
             </div>
         </form>

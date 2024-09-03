@@ -43,22 +43,23 @@ export class EditcategoryComponent implements OnInit {
   categoryData: any;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) private data: any,
     public fb: FormBuilder,
     private dashboardService: DashboardService,
     private snackbarService: SnackbarService,
     public dialogRef: MatDialogRef<any>
   ) {}
 
-  categoryForm = this.fb.group({
+  editCategoryForm = this.fb.group({
     _id: ['', Validators.required],
     name: ['', Validators.required],
     status: ['', Validators.required],
   });
 
   ngOnInit(): void {
-    this.categoryData = this.data;
-    this.categoryForm.patchValue({
+    console.log('this.data', this.data);
+    this.categoryData = { ...this.data };
+    this.editCategoryForm.patchValue({
       _id: this.categoryData._id,
       name: this.categoryData.name,
       status: this.categoryData.status,
@@ -69,14 +70,18 @@ export class EditcategoryComponent implements OnInit {
     this.categoryData.status = !this.categoryData.status;
   }
 
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
   updateCategory() {
     this.dashboardService
-      .updateCategory(this.categoryForm.value)
+      .updateCategory(this.editCategoryForm.value)
       .pipe(
         tap((data: any) => {
           if (data) {
             this.snackbarService.openSnackbar('Category changed', '');
-            this.dialogRef.close();
+            this.dialogRef.close(this.editCategoryForm.value); // Pass the updated data here
           } else {
             this.snackbarService.openSnackbar(
               'Category change failed',

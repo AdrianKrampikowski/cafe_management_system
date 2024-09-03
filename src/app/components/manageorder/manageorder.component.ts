@@ -203,7 +203,7 @@ export class ManageorderComponent implements OnInit {
       total: total,
     });
   }
-
+  totalAmount: number = 0;
   addProductToList() {
     let data: any = this.customerForm.value;
     const newObject = {
@@ -213,6 +213,7 @@ export class ManageorderComponent implements OnInit {
       quantity: data?.quantity,
       subTotal: data?.total,
     };
+    this.totalAmount += Number(newObject.subTotal);
     this.listData.data = [...this.listData.data, newObject];
   }
 
