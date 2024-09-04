@@ -111,6 +111,14 @@ export class DashboardService {
     );
   }
 
+  viewFilteredProduct(data: any) {
+    return this.httpclient.post(
+      this.apiUrl + '/product/getFilteredProduct',
+      data,
+      this.authService.getHeaders()
+    );
+  }
+
   updateProduct(categoryData: any) {
     return this.httpclient.patch(
       this.apiUrl + '/product/updateProduct/' + categoryData._id,

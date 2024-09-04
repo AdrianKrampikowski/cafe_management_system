@@ -59,20 +59,20 @@ export class ManageproductComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllProducts();
-    this.productData.filterPredicate = (data: any, filter: string): boolean => {
-      const transformedFilter = filter.trim().toLowerCase();
+    // this.productData.filterPredicate = (data: any, filter: string): boolean => {
+    //   const transformedFilter = filter.trim().toLowerCase();
 
-      const transformedPrice = data.price
-        .toString()
-        .replace(',', '.')
-        .toLowerCase();
+    //   const transformedPrice = data.price
+    //     .toString()
+    //     .replace(',', '.')
+    //     .toLowerCase();
 
-      return (
-        data.description.toLowerCase().includes(transformedFilter) ||
-        data.name.toLowerCase().includes(transformedFilter) ||
-        transformedPrice.includes(transformedFilter)
-      );
-    };
+    //   return (
+    //     data.description.toLowerCase().includes(transformedFilter) ||
+    //     data.name.toLowerCase().includes(transformedFilter) ||
+    //     transformedPrice.includes(transformedFilter)
+    //   );
+    // };
   }
 
   loadAllProducts() {
@@ -122,13 +122,18 @@ export class ManageproductComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-      .trim()
-      .toLowerCase();
-    this.productData.filter = filterValue;
-    if (this.productData.paginator) {
-      this.productData.paginator.firstPage();
-    }
+    const filterValue = (event.target as HTMLInputElement).value.trim();
+    // .toLowerCase();
+
+    this.dashboardService
+      .viewFilteredProduct({ data: filterValue })
+      .subscribe((result: any) => {
+        this.productData.data = result;
+      });
+    // this.productData.filter = filterValue;
+    // if (this.productData.paginator) {
+    //   this.productData.paginator.firstPage();
+    // }
   }
 
   clearFilter() {

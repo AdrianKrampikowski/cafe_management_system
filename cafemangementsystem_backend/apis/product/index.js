@@ -7,6 +7,7 @@ const controller = require("./controller");
 router.route("/createProduct").post(auth, role, controller.createProduct);
 router.route("/getAllProducts").get(auth, controller.getAllProducts);
 router.route("/getProductByCategory").post(auth, controller.getProductByCategory);
+router.route("/getFilteredProduct").post(auth, controller.getFilteredProduct);
 router.route("/getProductByID/:_id").get(auth, controller.getProductByID);
 router.route("/updateProduct/:_id").patch(auth, role, controller.updateProduct);
 router.route("/updateProductStatus/:_id").patch(auth, role, controller.updateProductStatus);

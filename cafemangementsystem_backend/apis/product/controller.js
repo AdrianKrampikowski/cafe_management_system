@@ -52,6 +52,48 @@ const getProductByCategory = async (req, resp) => {
     }
 };
 
+const getFilteredProduct = async (req, resp) => {
+    const { data } = req.body;
+    let query = [];
+    // Handle empty strings or whitespace-only strings
+    if (data && data.trim() !== '') {
+        // Check if data can be converted to a number
+        if (!isNaN(data)) {
+            const numericValue = Number(data);
+            // For price search, convert the price to a string for regex match
+            query.push({
+                $expr: {
+                    $regexMatch: {
+                        input: { $toString: "$price" },  // Convert price to string
+                        regex: data,  // Use input data for regex
+                        options: 'i'  // Case insensitive
+                    }
+                }
+            });
+        } else {
+            query.push(
+                { name: { $regex: data, $options: 'i' } },  // case-insensitive regex for name
+                { description: { $regex: data, $options: 'i' } }  // case-insensitive regex for description
+            );
+        }
+    }
+
+    try {
+        // If query array is empty, return all products or handle accordingly
+        let product = query.length > 0
+            ? await Product.find({ "$or": query })
+            : await Product.find({});
+        if (product.length < 1) {
+            resp.status(404).json({ message: "No matching product found" });
+        } else {
+            resp.status(200).json(product);
+        }
+    } catch (error) {
+        resp.status(400).json({ message: error.message });
+    }
+}
+
+
 const getProductByID = async (req, resp) => {
     try {
         let product = await Product.find(req.params);
@@ -117,4 +159,4 @@ const deleteProductByID = async (req, resp) => {
     }
 }
 
-module.exports = { createProduct, getAllProducts, getProductByCategory, getProductByID, updateProduct, deleteProductByID, updateProductStatus };
+module.exports = { createProduct, getAllProducts, getProductByCategory, getFilteredProduct, getProductByID, updateProduct, deleteProductByID, updateProductStatus };
