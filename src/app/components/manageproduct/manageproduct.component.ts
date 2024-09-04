@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -15,6 +15,11 @@ import { CommonModule } from '@angular/common';
 import { EditproductComponent } from '../editproduct/editproduct.component';
 import { catchError, of, tap } from 'rxjs';
 import { SnackbarService } from '../../services/snackbar.service';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-manageproduct',
@@ -30,17 +35,22 @@ import { SnackbarService } from '../../services/snackbar.service';
     MatTableModule,
     MatSlideToggleModule,
     CommonModule,
+    MatPaginatorModule,
   ],
   templateUrl: './manageproduct.component.html',
   styleUrl: './manageproduct.component.scss',
 })
 export class ManageproductComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   inputValue = '';
   productData = new MatTableDataSource<any>();
   // productData: any = [];
   // dataSource = this.productData;
   isHolding = false;
   holdTimeout: any;
+  datalength: any;
+  pageSize: Number = 5;
+  page: Number = 1;
   displayedColumns: string[] = [
     'categoryID',
     'description',
@@ -58,7 +68,7 @@ export class ManageproductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadAllProducts();
+    this.loadAllProducts(this.page, this.pageSize);
     // this.productData.filterPredicate = (data: any, filter: string): boolean => {
     //   const transformedFilter = filter.trim().toLowerCase();
 
@@ -75,10 +85,21 @@ export class ManageproductComponent implements OnInit {
     // };
   }
 
-  loadAllProducts() {
-    this.dashboardService.viewProduct().subscribe((products: any) => {
-      this.productData.data = products;
-    });
+  loadAllProducts(page?: any, pageSize?: any) {
+    this.dashboardService
+      .viewProduct(page, pageSize)
+      .subscribe((products: any) => {
+        console.log('products',products);
+        
+        this.productData.data = products.products;
+        this.datalength = products.totalProducts;
+      });
+  }
+
+  onPageChange(pageEvent: PageEvent) {    
+    this.page = pageEvent.pageIndex + 1;
+    this.pageSize = pageEvent.pageSize;
+    this.loadAllProducts(this.page, this.pageSize);
   }
 
   openAddProduct() {

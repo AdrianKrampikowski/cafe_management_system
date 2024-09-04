@@ -18,12 +18,21 @@ const createCategory = async (req, resp) => {
 }
 
 const getCategory = async (req, resp) => {
+    let page = Number(req.query.page) || 1;
+    let limit = Number(req.query.limit) || 5;
+    let skip = (page - 1) * limit;
     try {
-        const category = await Category.find({});
+        const category = await Category.find({}).skip(skip).limit(limit);
+        const totalCategories = await Category.countDocuments(); // Get total number of categories for correct pagination
         if (category.length < 1) {
             resp.status(404).json({ message: "Category not found" });
         } else {
-            resp.status(200).json(category);
+            resp.status(200).json({
+                category: category,
+                pageNumber: page,
+                limitNumber: limit,
+                totalCategories: totalCategories // Return total number of categories
+            });
         }
     } catch (error) {
         resp.status(400).json({ message: error.message });

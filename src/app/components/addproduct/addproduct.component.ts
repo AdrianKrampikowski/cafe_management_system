@@ -49,20 +49,19 @@ export class AddproductComponent implements OnInit {
 
   ngOnInit(): void {
     this.dashboardService.viewCategory().subscribe((result: any) => {
-      this.categoryList = result;
+      this.categoryList = result.category;
       // this.categoryList = result.map((category: any) => category.name);
     });
   }
 
-  addProduct() {
+  addProduct() {    
     if (this.addProductForm.value.category) {
-      this.addProductForm.value.category =
-        this.addProductForm.value.category[0];
+      // this.addProductForm.value.category =
+      //   this.addProductForm.value.category[0];
       let formValue = this.addProductForm.value;
       if (formValue.price) {
         formValue.price = formValue.price?.replace(',', '.');
-      }
-      console.log('this.addProductForm.value', this.addProductForm.value);
+      }      
       this.dashboardService
         .addProduct(this.addProductForm.value)
         .pipe(

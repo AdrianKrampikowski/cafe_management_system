@@ -39,9 +39,14 @@ export class DashboardService {
     );
   }
 
-  viewCategory() {
+  viewCategory(page?: any, limit?: any) {
     return this.httpclient.get(
-      this.apiUrl + '/category/getCategory',
+      this.apiUrl +
+        '/category/getCategory/' +
+        '?page=' +
+        page +
+        '&limit=' +
+        limit,
       this.authService.getHeaders()
     );
   }
@@ -99,9 +104,14 @@ export class DashboardService {
     );
   }
 
-  viewProduct() {
+  viewProduct(page?: any, limit?: any) {
     return this.httpclient.get(
-      this.apiUrl + '/product/getAllProducts',
+      this.apiUrl +
+        '/product/getAllProducts' +
+        '?page=' +
+        page +
+        '&limit' +
+        limit,
       this.authService.getHeaders()
       //   {
       //   headers: {

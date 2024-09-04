@@ -16,7 +16,11 @@ import {
 import { EditcategoryComponent } from '../editcategory/editcategory.component';
 import { AddcategoryComponent } from '../addcategory/addcategory.component';
 import { SnackbarService } from '../../services/snackbar.service';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DeletecategorydialogComponent } from '../deletecategorydialog/deletecategorydialog.component';
@@ -47,15 +51,17 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog
   ) {}
   ngAfterViewInit() {
-    this.productData.paginator = this.paginator;
+    // this.productData.paginator = this.paginator;
   }
   value = '';
   datalength: any;
   productData = new MatTableDataSource<any>(); // Initialize as MatTableDataSource
   displayedColumns: string[] = ['sr', 'name', 'status', 'action'];
+  pageSize: Number = 5;
+  page: Number = 1;
 
   ngOnInit(): void {
-    this.loadAllCategorys();
+    this.loadAllCategorys(this.page, this.pageSize);
     // this.productData.filterPredicate = (data: any, filter: string): boolean => {
     //   return data.name.toLowerCase().includes(filter);
     // };
@@ -68,13 +74,21 @@ export class ManagecategoryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  loadAllCategorys() {
-    this.dashboardService.viewCategory().subscribe((data: any) => {
-      if (data) {
-        this.productData.data = data;
-        this.datalength = data.length;
-      }
-    });
+  loadAllCategorys(pageNumber?: any, limitNumber?: any) {
+    this.dashboardService
+      .viewCategory(pageNumber, limitNumber)
+      .subscribe((data: any) => {
+        if (data) {
+          this.productData.data = data.category;
+          this.datalength = data.totalCategories; // <-- Use total number of categories
+        }
+      });
+  }
+
+  onPageChange(pageEvent: PageEvent) {
+    this.pageSize = pageEvent.pageSize;
+    this.page = pageEvent.pageIndex + 1;
+    this.loadAllCategorys(this.page, this.pageSize);
   }
 
   editCategory(categoryData: any) {

@@ -20,19 +20,23 @@ const createProduct = async (req, resp) => {
 }
 
 const getAllProducts = async (req, resp) => {
-    let { sort } = req.query;
-    let queryObject = req.query;
-    if (sort) {
-        let changeSort = sort.replaceAll(",", " ");
-        sort = changeSort;
-        delete queryObject.sort;
-    }
+    // let { sort } = req.query;
+    // let queryObject = req.query;
+    let page = req.query.page || 1;
+    let limit = req.query.limit || 5;
+    let skip = (page - 1) * limit;
+    // if (sort) {
+    //     let changeSort = sort.replaceAll(",", " ");
+    //     sort = changeSort;
+    //     delete queryObject.sort;
+    // }
     try {
-        let products = await Product.find(queryObject).sort(sort);
+        let products = await Product.find({}).skip(skip).limit(limit);
+        const totalProducts = await Product.countDocuments();
         if (products.length < 1) {
             resp.status(404).json({ message: "No Product found" })
         } else {
-            resp.status(200).json(products);
+            resp.status(200).json({ products: products, page: page, pageSize: limit, totalProducts: totalProducts });
         }
     } catch (error) {
         resp.status(400).json({ message: error.message });
@@ -45,7 +49,7 @@ const getProductByCategory = async (req, resp) => {
         if (product.length < 1) {
             resp.status(404).json({ message: "No Product with this CategoryID exist" });
         } else {
-            resp.status(200).json(product);
+            resp.status(200).json({ product: product });
         }
     } catch (error) {
         resp.status(400).json({ message: error.message });
@@ -97,8 +101,6 @@ const getFilteredProduct = async (req, resp) => {
 const getProductByID = async (req, resp) => {
     try {
         let product = await Product.find(req.params);
-        console.log('product', product);
-
         if (product.length < 1) {
             resp.status(404).json({ message: "Product with this ID doesnt exist" });
         } else {
