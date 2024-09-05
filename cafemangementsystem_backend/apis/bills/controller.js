@@ -4,6 +4,7 @@ const pdf = require("html-pdf");
 const path = require("path");
 const uuid = require("uuid");
 const fs = require('fs');
+const pagination = require("../../businesslogic/pagination");
 
 const createBill = async (req, resp) => {
 
@@ -86,13 +87,15 @@ const getpdf = async (req, resp) => {
 };
 
 const getBills = async (req, resp) => {
+    const { page, limit, skip } = pagination(req.query)
     try {
-        const bill = await Bill.find();
+        const bill = await Bill.find({}).skip(skip).limit(limit);
+        const billCounter = await Bill.countDocuments();
         if (bill.length < 1) {
             // resp.status(404).json({ message: "No Bill found" });
             resp.status(200).json({ message: "New Costumer with no Bills" });
         } else {
-            resp.status(200).json(bill);
+            resp.status(200).json({ bill: bill, page: page, limit: limit, billCounter: billCounter });
         }
     } catch (error) {
         resp.status(400).json({ message: error.message });

@@ -16,7 +16,11 @@ import {
 } from '@angular/material/dialog';
 import { ViewbilldialogComponent } from '../viewbilldialog/viewbilldialog.component';
 import { BillService } from '../../services/bill.service';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { DeletebilldialogComponent } from '../../deletebilldialog/deletebilldialog.component';
 import { catchError, of, tap } from 'rxjs';
 import { SnackbarService } from '../../services/snackbar.service';
@@ -44,14 +48,16 @@ export class ViewbillComponent implements OnInit {
     private snackbarService: SnackbarService
   ) {}
   ngAfterViewInit() {
-    this.billData.paginator = this.paginator;
+    // this.billData.paginator = this.paginator;
   }
   value = '';
   billData = new MatTableDataSource<any>();
   datalength: any;
+  page: any = 1;
+  pageSize: any = 5;
 
   ngOnInit(): void {
-    this.loadBills();
+    this.loadBills(this.page, this.pageSize);
   }
 
   displayedColumns: string[] = [
@@ -63,12 +69,14 @@ export class ViewbillComponent implements OnInit {
     'action',
   ];
 
-  loadBills(): void {
+  loadBills(page?: any, limit?: any): void {
     this.billService
-      .loadBills()
+      .loadBills(page, limit)
       .pipe(
         tap((data: any) => {
-          if (data.length > 0) {
+          if (data.bill.length > 0) {
+            this.billData.data = data.bill;
+            this.datalength = data.billCounter;
             this.snackbarService.openSnackbar('Bills loaded', '');
           } else {
             this.snackbarService.openSnackbar('No Bills found', 'Error');
@@ -79,10 +87,13 @@ export class ViewbillComponent implements OnInit {
           return of(null);
         })
       )
-      .subscribe((bills: any) => {
-        this.billData.data = bills;
-        this.datalength = bills.length;
-      });
+      .subscribe();
+  }
+
+  onPageChange(pageEvent: PageEvent) {
+    this.page = pageEvent.pageIndex + 1;
+    this.pageSize = pageEvent.pageSize;
+    this.loadBills(this.page, this.pageSize);
   }
 
   openViewBillDialog(element: any): void {

@@ -88,9 +88,7 @@ export class ManageproductComponent implements OnInit {
   loadAllProducts(page?: any, pageSize?: any) {
     this.dashboardService
       .viewProduct(page, pageSize)
-      .subscribe((products: any) => {
-        console.log('products',products);
-        
+      .subscribe((products: any) => {        
         this.productData.data = products.products;
         this.datalength = products.totalProducts;
       });

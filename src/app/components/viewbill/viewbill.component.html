@@ -62,7 +62,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator [length]="datalength" [pageSizeOptions]="[5, 10, 25, 100]"
-            aria-label="Select page of bills"></mat-paginator>
+        <mat-paginator [length]="datalength" [pageSizeOptions]="[1,5, 10, 25, 100]" [pageSize]="pageSize"
+            aria-label="Select page of bills" (page)="onPageChange($event)"></mat-paginator>
     </mat-card-content>
 </mat-card>

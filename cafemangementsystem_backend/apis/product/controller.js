@@ -1,6 +1,6 @@
-const { isForInStatement } = require("typescript");
+// const { isForInStatement } = require("typescript");
 const Product = require("./model");
-const pagination = require("../../businesslogic/pagination")
+const pagination = require("../../businesslogic/pagination");
 
 const createProduct = async (req, resp) => {
     const { _id, name, status, description } = req.body;

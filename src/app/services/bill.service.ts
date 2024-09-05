@@ -13,9 +13,9 @@ export class BillService {
     private authService: AuthService
   ) {}
 
-  loadBills() {
+  loadBills(page?: any, limit?: any) {
     return this.httpclient.get(
-      this.apiUrl + '/bill/getBills',
+      this.apiUrl + '/bill/getBills' + '?page=' + page + '&limit=' + limit,
       this.authService.getHeaders()
     );
   }
