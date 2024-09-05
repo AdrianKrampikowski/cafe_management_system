@@ -32,7 +32,7 @@ const login = async (req, resp) => {
         } else if (userQuery[0].password == user.password) {
             const response = { email: userQuery[0].email, role: userQuery[0].role }
             const acessToken = jwt.sign(response, process.env.ACCESS_TOKEN, { expiresIn: "10h" });
-            resp.status(200).json({ token: acessToken })
+            resp.status(200).json({ token: acessToken, role: userQuery[0].role })
         } else {
             resp.status(400).json({ message: "Something went wrong" })
         }

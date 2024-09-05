@@ -66,6 +66,8 @@ export class LogindialogComponent {
       .pipe(
         tap((data: any) => {
           if (data) {
+            console.log('data', data);
+            localStorage.setItem('role', data.role);
             this.authService.userLogined = true;
             this.owncookieService.setToken(data.token);
             this.snackBarService.openSnackbar('SignUp Successful', '');

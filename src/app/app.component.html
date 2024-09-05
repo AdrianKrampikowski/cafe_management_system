@@ -1,5 +1,7 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <app-sidebar></app-sidebar>
+  <ng-container *ngIf="owncookieService.getEncodedToken()">
+    <app-sidebar></app-sidebar>
+  </ng-container>
   <router-outlet></router-outlet>
 </div>

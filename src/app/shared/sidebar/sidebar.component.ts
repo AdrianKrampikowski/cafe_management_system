@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,16 +24,28 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   constructor(public router: Router, private authService: AuthService) {}
+  currentUserRole = localStorage.getItem('role');
   navItems = [
-    { name: 'Dashboard', icon: 'dashboard', url: '/dashboard' },
+    { name: 'Dashboard', icon: 'dashboard', url: '/dashboard'},
     { name: 'Manage Category', icon: 'category', url: '/managecategory' },
     { name: 'Manage Products', icon: 'inventory', url: '/manageproduct' },
     { name: 'Manage Order', icon: 'receipt', url: '/manageorder' },
     { name: 'View Bill', icon: 'visibility', url: '/viewbill' },
     { name: 'Manage Users', icon: 'group', url: '/manageuser' },
   ];
+
+  ngOnInit(): void {
+    if (this.currentUserRole == 'user') {
+      this.navItems = 
+      [
+        { name: 'Dashboard', icon: 'dashboard', url: '/dashboard'},
+        { name: 'Manage Order', icon: 'receipt', url: '/manageorder' },
+        { name: 'View Bill', icon: 'visibility', url: '/viewbill' },
+      ]
+    }
+  }
 
   changePage(url: string) {
     const userIsLoggedIn = this.authService.isLoggedIn();

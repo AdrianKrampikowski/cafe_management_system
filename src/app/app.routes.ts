@@ -7,13 +7,34 @@ import { ManagecategoryComponent } from './components/managecategory/managecateg
 import { ViewbillComponent } from './components/viewbill/viewbill.component';
 import { ManageuserComponent } from './components/manageuser/manageuser.component';
 import { authGuard } from './guards/auth.guard';
+import { permissionGuard } from './guards/permission.guard';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate:[authGuard] },
-  { path: 'managecategory', component: ManagecategoryComponent },
-  { path: 'manageorder', component: ManageorderComponent },
-  { path: 'manageproduct', component: ManageproductComponent },
-  { path: 'viewbill', component: ViewbillComponent },
-  { path: 'manageuser', component: ManageuserComponent },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'managecategory',
+    component: ManagecategoryComponent,
+    canActivate: [authGuard, permissionGuard],
+  },
+  {
+    path: 'manageorder',
+    component: ManageorderComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'manageproduct',
+    component: ManageproductComponent,
+    canActivate: [authGuard, permissionGuard],
+  },
+  { path: 'viewbill', component: ViewbillComponent, canActivate: [authGuard] },
+  {
+    path: 'manageuser',
+    component: ManageuserComponent,
+    canActivate: [authGuard, permissionGuard],
+  },
 ];
