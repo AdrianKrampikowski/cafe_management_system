@@ -18,9 +18,7 @@ const createCategory = async (req, resp) => {
 }
 
 const getCategory = async (req, resp) => {
-    let page = Number(req.query.page) || 1;
-    let limit = Number(req.query.limit) || 5;
-    let skip = (page - 1) * limit;
+    const { page, limit, skip } = pagination(req.query);
     try {
         const category = await Category.find({}).skip(skip).limit(limit);
         const totalCategories = await Category.countDocuments(); // Get total number of categories for correct pagination

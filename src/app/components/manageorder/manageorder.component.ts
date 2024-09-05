@@ -158,7 +158,7 @@ export class ManageorderComponent implements OnInit {
     this.orderService
       .loadProductByCategory(categoryID)
       .subscribe((data: any) => {
-        this.productData = data;
+        this.productData = data.product;
       });
 
     this.customerForm.patchValue({

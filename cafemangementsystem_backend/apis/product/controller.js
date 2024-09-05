@@ -1,5 +1,6 @@
 const { isForInStatement } = require("typescript");
 const Product = require("./model");
+const pagination = require("../../businesslogic/pagination")
 
 const createProduct = async (req, resp) => {
     const { _id, name, status, description } = req.body;
@@ -17,19 +18,10 @@ const createProduct = async (req, resp) => {
     } catch (error) {
         resp.status(400).json({ message: error.message });
     }
-}
+};
 
 const getAllProducts = async (req, resp) => {
-    // let { sort } = req.query;
-    // let queryObject = req.query;
-    let page = req.query.page || 1;
-    let limit = req.query.limit || 5;
-    let skip = (page - 1) * limit;
-    // if (sort) {
-    //     let changeSort = sort.replaceAll(",", " ");
-    //     sort = changeSort;
-    //     delete queryObject.sort;
-    // }
+    const { page, limit, skip } = pagination(req.query);
     try {
         let products = await Product.find({}).skip(skip).limit(limit);
         const totalProducts = await Product.countDocuments();
@@ -95,7 +87,7 @@ const getFilteredProduct = async (req, resp) => {
     } catch (error) {
         resp.status(400).json({ message: error.message });
     }
-}
+};
 
 
 const getProductByID = async (req, resp) => {
@@ -109,7 +101,7 @@ const getProductByID = async (req, resp) => {
     } catch (error) {
         resp.status(400).json({ message: error.message });
     }
-}
+};
 
 const updateProduct = async (req, resp) => {
     const { name, price, description, status } = req.body;
@@ -129,7 +121,7 @@ const updateProduct = async (req, resp) => {
     } catch (error) {
         resp.status(400).json({ message: error.message });
     }
-}
+};
 
 const updateProductStatus = async (req, resp) => {
     const { status } = req.body;
@@ -146,7 +138,7 @@ const updateProductStatus = async (req, resp) => {
     } catch (error) {
         resp.status(400).json({ message: error.message });
     }
-}
+};
 
 const deleteProductByID = async (req, resp) => {
     try {
@@ -159,6 +151,8 @@ const deleteProductByID = async (req, resp) => {
     } catch (error) {
         resp.status(400).json({ message: error.message });
     }
-}
+};
 
-module.exports = { createProduct, getAllProducts, getProductByCategory, getFilteredProduct, getProductByID, updateProduct, deleteProductByID, updateProductStatus };
+module.exports = {
+    createProduct, getAllProducts, getProductByCategory, getFilteredProduct, getProductByID, updateProduct, deleteProductByID, updateProductStatus
+};
