@@ -285,8 +285,8 @@ export class ManageorderComponent implements OnInit {
           return of(null); // Return null in case of error
         })
       )
-      .subscribe(
-        (blob: Blob | null) => {
+      .subscribe({
+        next: (blob: Blob | null) => {
           if (blob) {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -300,9 +300,9 @@ export class ManageorderComponent implements OnInit {
             console.error('Failed to download PDF: No blob data received');
           }
         },
-        (error) => {
+        error: (error) => {
           console.error('Error downloading the PDF', error);
-        }
-      );
+        },
+      });
   }
 }
