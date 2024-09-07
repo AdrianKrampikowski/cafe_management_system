@@ -297,11 +297,11 @@ export class ManageorderComponent implements OnInit {
             window.URL.revokeObjectURL(url);
             a.remove();
           } else {
-            console.error('Failed to download PDF: No blob data received');
+            // console.error('Failed to download PDF: No blob data received');
           }
         },
         error: (error) => {
-          console.error('Error downloading the PDF', error);
+          // console.error('Error downloading the PDF', error);
         },
       });
   }
