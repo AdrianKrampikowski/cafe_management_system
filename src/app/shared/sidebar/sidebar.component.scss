@@ -1,11 +1,18 @@
 .sidenav-container {
-  height: calc(100vh - 150px);
-  width: 200px;
+  // height: calc(100vh - 150px);
+  // width: 200px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
-::ng-deep mat-nav-list {
-    height: 80%;
-    width: 200px;
+:host ::ng-deep mat-sidenav-container * {
+  overflow: hidden;
+}
+
+:host ::ng-deep mat-nav-list {
+  height: 100%;
+  padding: 15px;
   background-color: darkorange;
 }
 
