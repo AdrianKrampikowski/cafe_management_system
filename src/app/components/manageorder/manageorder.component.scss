@@ -1,9 +1,18 @@
+:host ::ng-deep mat-form-field {
+  width: 100%;
+}
+
 .container {
   height: calc(100vh - 150px);
   width: calc(100vw - 300px);
   display: flex;
   flex-direction: column;
   gap: 25px;
+}
+
+.manageorder-top{
+  display: flex;
+  justify-content: space-between;
 }
 
 .dashboard-container {
@@ -19,4 +28,16 @@
 
 table {
   width: 100%;
+}
+
+.form-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.buttons-container{
+  display: flex;
+  justify-content: space-between;
 }

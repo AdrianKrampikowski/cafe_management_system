@@ -11,9 +11,8 @@
     <mat-card class="customer-details-container">
         <mat-card-content class="customer-details-top">
             <mat-card-title>Customer-Details</mat-card-title>
-            <form class="example-form" [formGroup]="customerForm">
-
-                <mat-form-field class="example-full-width">
+            <form class="form-container" [formGroup]="customerForm">
+                <mat-form-field>
                     <mat-label>Name</mat-label>
                     <input type="text" matInput formControlName="name" [matAutocomplete]="autoName" placeholder="Name">
                     <mat-autocomplete #autoName="matAutocomplete"
@@ -77,8 +76,7 @@
     <mat-card class="select-products-container">
         <mat-card-content class="select-products-top">
             <mat-card-title>Select Product</mat-card-title>
-            <form class="example-form" [formGroup]="customerForm">
-
+            <form class="form-container" [formGroup]="customerForm">
                 <mat-form-field>
                     <mat-label>Category</mat-label>
                     <mat-select formControlName="category" (selectionChange)="loadProducts($event)">
@@ -124,11 +122,11 @@
                 </mat-form-field>
 
             </form>
-            <button mat-flat-button color="warn" (click)="addProductToList()">add</button>
-            <mat-card>
+            <div class="buttons-container">
+                <button mat-flat-button color="warn" (click)="addProductToList()">add</button>
                 <button mat-flat-button color="warn">Total Amount: {{totalAmount}}
                 </button>
-            </mat-card>
+            </div>
         </mat-card-content>
     </mat-card>
 
