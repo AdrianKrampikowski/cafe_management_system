@@ -1,24 +1,34 @@
 <div class="container">
-
     <mat-card class="dashboard-container">
         <mat-card-title>Dashboard</mat-card-title>
         <mat-card-content>
-            <mat-card class="subcards">
-                <mat-card-content>Total Category</mat-card-content>
-                <mat-card-content> {{ dashboardData?.categoryCount }}</mat-card-content>
-                <button mat-flat-button color="warn" (click)="viewCategory()">View Category</button>
+            <mat-card class="subcard">
+                <mat-card-header>
+                    <mat-card-title>Total Category</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>{{ dashboardData?.categoryCount }}</mat-card-content>
+                <mat-card-actions>
+                    <button mat-flat-button color="warn" (click)="viewCategory()">View Category</button>
+                </mat-card-actions>
             </mat-card>
-            <mat-card class="subcards">
-                <mat-card-content>Total Product</mat-card-content>
-                <mat-card-content> {{ dashboardData?.productCount }}</mat-card-content>
-                <button mat-flat-button color="warn" (click)="viewProduct()">View Product</button>
+            <mat-card class="subcard">
+                <mat-card-header>
+                    <mat-card-title>Total Product</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>{{ dashboardData?.productCount }}</mat-card-content>
+                <mat-card-actions>
+                    <button mat-flat-button color="warn" (click)="viewProduct()">View Product</button>
+                </mat-card-actions>
             </mat-card>
-            <mat-card class="subcards">
-                <mat-card-content>Total Bill</mat-card-content>
-                <mat-card-content> {{ dashboardData?.billCount }}</mat-card-content>
-                <button mat-flat-button color="warn" (click)="viewBill()">View Bill</button>
+            <mat-card class="subcard">
+                <mat-card-header>
+                    <mat-card-title>Total Bill</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>{{ dashboardData?.billCount }}</mat-card-content>
+                <mat-card-actions>
+                    <button mat-flat-button color="warn" (click)="viewBill()">View Bill</button>
+                </mat-card-actions>
             </mat-card>
         </mat-card-content>
     </mat-card>
-
 </div>

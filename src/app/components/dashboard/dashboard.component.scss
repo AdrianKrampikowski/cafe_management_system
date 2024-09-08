@@ -6,6 +6,14 @@
 .dashboard-container {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+}
+
+.subcard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25vw;
 }
 
 :host ::ng-deep mat-card-content {
@@ -14,9 +22,9 @@
   align-items: center;
 }
 
-.subcards{
+:host ::ng-deep mat-card-actions {
+  margin-top: 1rem;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 25vw;
+  justify-content: center;
 }
