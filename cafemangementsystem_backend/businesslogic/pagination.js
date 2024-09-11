@@ -1,4 +1,3 @@
-
 const pagination = ((query) => {
     let page = query.page || 1;
     let limit = query.limit || 5;
