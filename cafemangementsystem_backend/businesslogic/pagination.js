@@ -5,5 +5,4 @@ const pagination = ((query) => {
     return { page, limit, skip }
 });
 
-
 module.exports = pagination;
