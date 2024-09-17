@@ -120,4 +120,5 @@ const changeOwnPassword = async (req, resp) => {
     }
 }
 
+
 module.exports = { signUp, login, getAllUsers, updateUser, changePassword, changeOwnPassword }
